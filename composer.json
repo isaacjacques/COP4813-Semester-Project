@@ -1,0 +1,13 @@
+{
+    "name": "group13/cop4813-semester-project",
+    "description": "Project Wizard - Project Timeline & Budget Monitor",
+    "type": "project",
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    },
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": { "App\\": "src/" }
+    }
+}
