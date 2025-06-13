@@ -1,24 +1,18 @@
 <?php
-require __DIR__.'/../vendor/autoload.php';
-(Dotenv\Dotenv::createImmutable(__DIR__.'/../'))->load();
+require __DIR__ . '/../vendor/autoload.php';
 
-session_start();
+use Src\Controllers\HomeController;
+
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// simple router
 switch ($uri) {
-  case '/':
-  case '/home':
-    App\Controllers\ProjectController::home();
-    break;
-  case '/login':
-    App\Controllers\AuthController::showLogin();
-    break;
-  case '/auth/login':
-    App\Controllers\AuthController::login($_POST);
-    break;
-  // add /budget, /stages, /invoices
-  default:
-    header("HTTP/1.0 404 Not Found");
-    echo "404";
+    case '/':
+    case '/index.php':
+        (new HomeController())->index();
+        break;
+    default:
+        header("HTTP/1.0 404 Not Found");
+        echo "404 Not Found";
+        break;
 }
+?>

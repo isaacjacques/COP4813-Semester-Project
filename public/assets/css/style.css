@@ -1,0 +1,14 @@
+:root {
+  --color-primary:   #f3f4f6;
+  --color-secondary: #d1d5db;
+} 
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+header {
+    background-color: #f4f4f4;
+    padding: 20px;
+}

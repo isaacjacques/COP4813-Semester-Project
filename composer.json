@@ -8,6 +8,8 @@
     "license": "MIT",
     "minimum-stability": "stable",
     "autoload": {
-        "psr-4": { "App\\": "src/" }
+        "psr-4": {
+            "Src\\": "src/"
+        }
     }
 }
