@@ -22,8 +22,8 @@
   </header>
   <section class="py-4" style="background-color: var(--color-secondary);">
     <div class="container d-flex justify-content-center">
-      <a href="/login.php" class="btn btn-dark btn-lg mx-2">Login</a>
-      <a href="/register.php" class="btn btn-dark btn-lg mx-2">New User</a>
+      <a href="/login" class="btn btn-dark btn-lg mx-2">Login</a>
+      <a href="/register" class="btn btn-dark btn-lg mx-2">New User</a>
     </div>
   </section>
 </body>

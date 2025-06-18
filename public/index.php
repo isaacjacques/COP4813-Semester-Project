@@ -2,17 +2,33 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use Src\Controllers\HomeController;
+use Src\Controllers\AuthController;
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
 switch ($uri) {
     case '/':
-    case '/index.php':
         (new HomeController())->index();
         break;
+
+    case '/home':
+        (new HomeController())->index();
+        break;
+
+    case '/login':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            (new AuthController())->handleLogin();
+        } else {
+            (new AuthController())->showLoginForm();
+        }
+        break;
+        
+    case '/logout':
+        (new AuthController())->logout();
+        break;
+
     default:
-        header("HTTP/1.0 404 Not Found");
-        echo "404 Not Found";
+        http_response_code(404);
+        echo "404 - Page Not Found";
         break;
 }
 ?>
