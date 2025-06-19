@@ -5,6 +5,7 @@ use Src\Controllers\HomeController;
 use Src\Controllers\AuthController;
 use Src\Controllers\BudgetController;
 use Src\Controllers\InvoiceController;
+use Src\Controllers\StageController;
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 switch ($uri) {
@@ -22,6 +23,14 @@ switch ($uri) {
 
     case '/invoices':
         (new InvoiceController())->index();
+        break;
+
+    case '/stages':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            (new StageController())->save();
+        } else {
+            (new StageController())->index();
+        }
         break;
 
     case '/login':
