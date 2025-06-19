@@ -13,45 +13,16 @@
 </head>
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center" href="home">
-        <img src="assets/images/logo.svg" alt="Wizard" width="30" height="30" class="me-2">
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
-              aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="mainNav">
-        <ul class="navbar-nav ms-3">
-          <li class="nav-item">
-            <a class="nav-link active" href="home">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="budget">Budget</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="stages">Stages</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="invoices">Invoices</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="admin">Admin</a>
-          </li>
-        </ul>
-        <div class="ms-auto">
-          <a href="logout" class="btn btn-logout">Log Out</a>
-        </div>
-      </div>
-    </div>
-  </nav>
+  <?php include 'navbar.php'; ?>
 
   <main>
     <div class="container my-5">
         <h3 class="mb-4">Project Budget</h3>
         <canvas id="projectSpendingChart"></canvas>
+    </div>
+    <div class="container mt-5">
+      <h4>Spending by Project Stage</h4>
+      <div id="stage-donuts" class="row"></div>
     </div>
   </main>
   
@@ -96,6 +67,79 @@
       }
     }
   });
+
+  document.addEventListener('DOMContentLoaded', function() {
+  const stages = [
+    { name: 'Requirement Gathering', allocated: 6500, used: 6250 },
+    { name: 'Project Proposal',      allocated: 6500, used: 6250 },
+    { name: 'Design',                allocated: 27777, used: 25000 },
+    { name: 'Development',           allocated: 50000, used: 55000 },
+    { name: 'Integration Testing',   allocated: 25000, used: 15000 },
+    { name: 'Client Handoff',        allocated: 2500,  used: 1250 }
+  ];
+
+  // match these to your main chart’s segment colors (in same order)
+  const stageColors = [
+    '#A7F3D0',  // Requirement Gathering (light green)
+    '#5EEAD4',  // Project Proposal (teal)
+    '#BFDBFE',  // Design (light blue)
+    '#E9D5FF',  // Development (light purple)
+    '#FECACA',  // Integration Testing (light pink)
+    '#DDD6FE'   // Client Handoff (light lilac)
+  ];
+
+  const container = document.getElementById('stage-donuts');
+
+  stages.forEach((stage, idx) => {
+    const rem = Math.max(stage.allocated - stage.used, 0);
+    const cardCol = document.createElement('div');
+    cardCol.className = 'col-sm-6 col-md-4 mb-4';
+    cardCol.innerHTML = `
+      <div class="card h-100 text-center p-3">
+        <h5 class="card-title">${stage.name}</h5>
+        <canvas id="donut-${idx}"></canvas>
+        <div class="mt-2 small">
+          <span class="me-3">
+            <span class="badge" style="background:${stageColors[idx]};">&nbsp;</span>
+            Used: ${stage.used.toLocaleString()}
+          </span>
+          <span>
+            <span class="badge bg-secondary">&nbsp;</span>
+            Rem: ${rem.toLocaleString()}
+          </span>
+        </div>
+      </div>
+    `;
+    container.appendChild(cardCol);
+
+    const ctx = document.getElementById(`donut-${idx}`).getContext('2d');
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Used', 'Remaining'],
+        datasets: [{
+          data: [stage.used, rem],
+          backgroundColor: [
+            stageColors[idx],   // same as project chart
+            '#e9ecef'           // light gray for remaining
+          ],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        cutout: '70%',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => `${ctx.label}: ${ctx.parsed.toLocaleString()}`
+            }
+          }
+        }
+      }
+    });
+  });
+});
 </script>
 </body>
 </html>
