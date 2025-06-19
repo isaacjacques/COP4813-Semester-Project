@@ -6,6 +6,8 @@ use Src\Controllers\AuthController;
 use Src\Controllers\BudgetController;
 use Src\Controllers\InvoiceController;
 use Src\Controllers\StageController;
+use Src\Controllers\RegisterController;
+
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 switch ($uri) {
@@ -40,7 +42,15 @@ switch ($uri) {
             (new AuthController())->showLoginForm();
         }
         break;
-        
+    
+    case '/register':
+        if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
+            (new RegisterController())->handleRegistration();
+        } else {
+            (new RegisterController())->showForm();
+        }
+        break;
+
     case '/logout':
         (new AuthController())->logout();
         break;

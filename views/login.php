@@ -17,6 +17,24 @@
     </div>
   </section>
 
+  <!--Alert after successful registration redirect-->
+  <?php if (!empty($_GET['registered']) && $_GET['registered'] == '1'): ?>
+    <div class="container mt-3">
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Registration successful! Please log in.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+  <?php endif; ?>
+  <!--Alert after failed login-->
+  <?php if (!empty($_GET['error']) && $_GET['error'] == '1'): ?>
+    <div class="container mt-3">
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Login failed.</strong> Please check your username and password.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+  <?php endif; ?>
   <section class="py-5" style="background-color: var(--color-secondary);">
     <div class="container d-flex justify-content-center">
       <div class="w-100" style="max-width: 400px;">

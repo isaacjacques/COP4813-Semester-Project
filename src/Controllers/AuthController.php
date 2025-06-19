@@ -22,9 +22,11 @@ class AuthController
             $_SESSION['username'] = $username;
             header('Location: /home');
             exit;
+        } else {
+            header("Location: /login?error=1");
+            exit;
         }
 
-        //echo "Invalid login";
     }
 
     public function logout() {
