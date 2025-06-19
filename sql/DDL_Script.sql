@@ -1,6 +1,11 @@
 CREATE DATABASE IF NOT EXISTS project_wizard;
 USE project_wizard;
 
+DROP TABLE IF EXISTS invoices;
+DROP TABLE IF EXISTS stages;
+DROP TABLE IF EXISTS projects;
+DROP TABLE IF EXISTS users;
+
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(20) NOT NULL UNIQUE,
