@@ -1,145 +1,139 @@
+<?php
+// Placeholder PHP data; later replace with real DB queries
+$stages = [
+    ['name'=>'Requirement Gathering','allocated'=>6500,'used'=>6250,'color'=>'#A7F3D0'],
+    ['name'=>'Project Proposal','allocated'=>6500,'used'=>6250,'color'=>'#5EEAD4'],
+    ['name'=>'Design','allocated'=>27777,'used'=>25000,'color'=>'#BFDBFE'],
+    ['name'=>'Development','allocated'=>50000,'used'=>55000,'color'=>'#E9D5FF'],
+    ['name'=>'Integration Testing','allocated'=>25000,'used'=>15000,'color'=>'#FECACA'],
+    ['name'=>'Client Handoff','allocated'=>2500,'used'=>1250,'color'=>'#DDD6FE']
+];
+$totalBudget = array_sum(array_column($stages,'allocated'));
+$usedTotal   = array_sum(array_column($stages,'used'));
+$remaining   = max($totalBudget - $usedTotal, 0);
+
+// Prepare JSON for JS
+$stagesJson      = json_encode($stages);
+$totalBudgetJson = json_encode($totalBudget);
+$usedTotalJson   = json_encode($usedTotal);
+$remainingJson   = json_encode($remaining);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Project Wizard – Welcome</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project Budget</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-
   <?php include 'navbar.php'; ?>
 
-  <main>
-    <div class="container my-5">
-        <h3 class="mb-4">Project Budget</h3>
-        <canvas id="projectSpendingChart"></canvas>
-    </div>
-    <div class="container mt-5">
-      <h4>Spending by Project Stage</h4>
-      <div id="stage-donuts" class="row"></div>
-    </div>
-  </main>
-  
-<script>
-  const ctx = document.getElementById('projectSpendingChart').getContext('2d');
-  new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: [
-        'Requirement Gathering',
-        'Project Proposal',
-        'Design',
-        'Development',
-        'Integration Testing',
-        'Client Handoff',
-        'Remaining Budget'
-      ],
-      datasets: [{
-        label: 'Project Spending',
-        data: [10000, 20000, 30000, 50000, 20000, 10000, 30000],
-        backgroundColor: [
-          '#b6e6b0', // Requirement Gathering
-          '#a8f0de', // Project Proposal
-          '#b5d1ff', // Design
-          '#e7c6fa', // Development
-          '#ffddcc', // Integration Testing
-          '#dcd6f7', // Client Handoff
-          '#cccccc'  // Remaining Budget
-        ],
-        hoverOffset: 8
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'top'
-        },
-        title: {
-          display: false
-        }
-      }
-    }
-  });
-
-  document.addEventListener('DOMContentLoaded', function() {
-  const stages = [
-    { name: 'Requirement Gathering', allocated: 6500, used: 6250 },
-    { name: 'Project Proposal',      allocated: 6500, used: 6250 },
-    { name: 'Design',                allocated: 27777, used: 25000 },
-    { name: 'Development',           allocated: 50000, used: 55000 },
-    { name: 'Integration Testing',   allocated: 25000, used: 15000 },
-    { name: 'Client Handoff',        allocated: 2500,  used: 1250 }
-  ];
-
-  // match these to your main chart’s segment colors (in same order)
-  const stageColors = [
-    '#A7F3D0',  // Requirement Gathering (light green)
-    '#5EEAD4',  // Project Proposal (teal)
-    '#BFDBFE',  // Design (light blue)
-    '#E9D5FF',  // Development (light purple)
-    '#FECACA',  // Integration Testing (light pink)
-    '#DDD6FE'   // Client Handoff (light lilac)
-  ];
-
-  const container = document.getElementById('stage-donuts');
-
-  stages.forEach((stage, idx) => {
-    const rem = Math.max(stage.allocated - stage.used, 0);
-    const cardCol = document.createElement('div');
-    cardCol.className = 'col-sm-6 col-md-4 mb-4';
-    cardCol.innerHTML = `
-      <div class="card h-100 text-center p-3">
-        <h5 class="card-title">${stage.name}</h5>
-        <canvas id="donut-${idx}"></canvas>
-        <div class="mt-2 small">
-          <span class="me-3">
-            <span class="badge" style="background:${stageColors[idx]};">&nbsp;</span>
-            Used: ${stage.used.toLocaleString()}
-          </span>
-          <span>
-            <span class="badge bg-secondary">&nbsp;</span>
-            Rem: ${rem.toLocaleString()}
-          </span>
+  <div class="container mt-4">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h3>Project Budget</h3>
+        <div class="chart-wrapper" style="height:350px;">
+          <canvas id="mainChart"></canvas>
         </div>
       </div>
-    `;
-    container.appendChild(cardCol);
+    </div>
 
-    const ctx = document.getElementById(`donut-${idx}`).getContext('2d');
-    new Chart(ctx, {
+    <div class="row">
+      <div class="col-12">
+        <h4>Spending by Project Stage</h4>
+        <div id="stage-donuts" class="row gy-3"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Bring PHP data into JS
+    const stages         = <?php echo $stagesJson; ?>;
+    const totalBudget    = <?php echo $totalBudgetJson; ?>;
+    const usedTotal      = <?php echo $usedTotalJson; ?>;
+    const remainingBudget= <?php echo $remainingJson; ?>;
+
+    const labels           = stages.map(s => s.name).concat('Remaining Budget');
+    const mainData         = stages.map(s => s.allocated).concat(remainingBudget);
+    const backgroundColors = stages.map(s => s.color).concat('#e9ecef');
+
+    const mainCtx = document.getElementById('mainChart').getContext('2d');
+    new Chart(mainCtx, {
       type: 'doughnut',
       data: {
-        labels: ['Used', 'Remaining'],
+        labels: labels,
         datasets: [{
-          data: [stage.used, rem],
-          backgroundColor: [
-            stageColors[idx],   // same as project chart
-            '#e9ecef'           // light gray for remaining
-          ],
+          data: mainData,
+          backgroundColor: backgroundColors,
           borderWidth: 0
         }]
       },
       options: {
-        cutout: '70%',
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '60%',
         plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: ctx => `${ctx.label}: ${ctx.parsed.toLocaleString()}`
-            }
-          }
+          legend: { position: 'top' }
         }
       }
     });
-  });
-});
-</script>
+
+    const container = document.getElementById('stage-donuts');
+
+    stages.forEach((stage, idx) => {
+      const rem = Math.max(stage.allocated - stage.used, 0);
+
+      const col = document.createElement('div');
+      col.className = 'col-sm-6 col-md-4';
+      col.innerHTML = `
+        <div class="card h-100 text-center p-3">
+          <h5 class="card-title">${stage.name}</h5>
+          <div style="height:150px;">
+            <canvas id="donut-${idx}"></canvas>
+          </div>
+          <div class="mt-2 small">
+            <span class="me-3">
+              <span class="badge" style="background:${stage.color};">&nbsp;</span>
+              Used: ${stage.used.toLocaleString()}
+            </span>
+            <span>
+              <span class="badge bg-secondary">&nbsp;</span>
+              Rem: ${rem.toLocaleString()}
+            </span>
+          </div>
+        </div>
+      `;
+
+      container.appendChild(col);
+
+      const ctx = document.getElementById(`donut-${idx}`).getContext('2d');
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Used','Remaining'],
+          datasets: [{
+            data: [stage.used, rem],
+            backgroundColor: [stage.color, '#e9ecef'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '70%',
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: ctx => `${ctx.label}: ${ctx.parsed.toLocaleString()}`
+              }
+            }
+          }
+        }
+      });
+    });
+  </script>
 </body>
 </html>
