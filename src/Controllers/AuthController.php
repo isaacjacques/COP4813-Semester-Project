@@ -1,5 +1,7 @@
 <?php
 namespace Src\Controllers;
+use Src\Config\Database;
+use PDO;
 
 class AuthController
 {
@@ -12,21 +14,40 @@ class AuthController
     {
         session_start();
 
-        // Placeholder logic
-        // Later, verify credentials against DB
-        $username = $_POST['username'] ?? '';
+        $username = trim($_POST['username'] ?? '');
         $password = $_POST['password'] ?? '';
 
-        if ($username === 'admin' && $password === 'password') {
-            $_SESSION['user_id'] = $username;
-            $_SESSION['username'] = $username;
-            header('Location: /home');
-            exit;
-        } else {
-            header("Location: /login?error=1");
+        if ($username === '' || $password === '') {
+            header('Location: /login?error=1');
             exit;
         }
+        
+        $db   = new Database();
+        $conn = $db->connect();
 
+        $stmt = $conn->prepare(
+            'SELECT user_id, username, password_hash 
+             FROM users 
+             WHERE username = :username 
+             LIMIT 1'
+        );
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($user && md5($password) === $user['password_hash']) {
+            // Prevent session fixation
+            session_regenerate_id(true);
+
+            // 6. Set session and redirect to home
+            $_SESSION['user_id']  = $user['user_id'];
+            $_SESSION['username'] = $user['username'];
+            header('Location: /home');
+            exit;
+        } 
+
+        header("Location: /login?error=1");
+        exit;
     }
 
     public function logout() {
@@ -41,7 +62,7 @@ class AuthController
             );
         }
         session_destroy();
-        header('Location: /home');
+        header('Location: /login');
         exit;
     }
 }
