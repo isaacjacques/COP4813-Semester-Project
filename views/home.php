@@ -56,7 +56,7 @@
 
     <div class="container my-5">
       <h3 class="mb-4">Project Spending</h3>
-      <canvas id="projectSpendingChart" width="400" height="400"></canvas>
+      <canvas id="projectSpendingChart"></canvas>
     </div>
   </main>
   
