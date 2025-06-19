@@ -4,6 +4,7 @@ require __DIR__ . '/../vendor/autoload.php';
 use Src\Controllers\HomeController;
 use Src\Controllers\AuthController;
 use Src\Controllers\BudgetController;
+use Src\Controllers\InvoiceController;
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 switch ($uri) {
@@ -16,8 +17,12 @@ switch ($uri) {
         break;
 
     case '/budget':
-            (new BudgetController())->index();
-            break;
+        (new BudgetController())->index();
+        break;
+
+    case '/invoices':
+        (new InvoiceController())->index();
+        break;
 
     case '/login':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
