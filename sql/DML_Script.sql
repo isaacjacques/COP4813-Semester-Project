@@ -1,7 +1,10 @@
 USE project_wizard;
 
 INSERT INTO users (username, email, password_hash)
-VALUES ('admin', 'admin@example.com', MD5('password123'));
+VALUES ('isaac', 'isaac@email.com', MD5('password'));
+
+INSERT INTO users (username, email, password_hash)
+VALUES ('admin', 'admin@email.com', MD5('password'));
 SET @new_user_id = LAST_INSERT_ID();
 
 INSERT INTO projects (user_id, title, description, total_budget)

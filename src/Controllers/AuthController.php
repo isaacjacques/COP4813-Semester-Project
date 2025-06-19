@@ -36,10 +36,8 @@ class AuthController
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
         if ($user && md5($password) === $user['password_hash']) {
-            // Prevent session fixation
             session_regenerate_id(true);
 
-            // 6. Set session and redirect to home
             $_SESSION['user_id']  = $user['user_id'];
             $_SESSION['username'] = $user['username'];
             header('Location: /home');
