@@ -9,28 +9,28 @@ VALUES
   (@new_user_id, 'Shipping System', 'Develop and integrate a new shipping and manifesting system', 250000.00);
 SET @new_project_id = LAST_INSERT_ID();
 
-INSERT INTO stages (project_id, name, deadline, budget)
-VALUES (@new_project_id, 'Requirement Gathering', '2025-06-01', 10000.00);
+INSERT INTO stages (project_id, name, deadline, budget, color)
+VALUES (@new_project_id, 'Requirement Gathering', '2025-06-01', 10000.00, '#A7F3D0');
 SET @stage1_id = LAST_INSERT_ID();
 
-INSERT INTO stages (project_id, name, deadline, budget)
-VALUES (@new_project_id, 'Project Proposal', '2025-07-01', 20000.00);
+INSERT INTO stages (project_id, name, deadline, budget, color)
+VALUES (@new_project_id, 'Project Proposal', '2025-07-01', 20000.00, '#5EEAD4');
 SET @stage2_id = LAST_INSERT_ID();
 
-INSERT INTO stages (project_id, name, deadline, budget)
-VALUES (@new_project_id, 'Design', '2025-08-01', 30000.00);
+INSERT INTO stages (project_id, name, deadline, budget, color)
+VALUES (@new_project_id, 'Design', '2025-08-01', 30000.00, '#BFDBFE');
 SET @stage3_id = LAST_INSERT_ID();
 
-INSERT INTO stages (project_id, name, deadline, budget)
-VALUES (@new_project_id, 'Development', '2025-09-01', 50000.00);
+INSERT INTO stages (project_id, name, deadline, budget, color)
+VALUES (@new_project_id, 'Development', '2025-09-01', 50000.00, '#E9D5FF');
 SET @stage4_id = LAST_INSERT_ID();
 
-INSERT INTO stages (project_id, name, deadline, budget)
-VALUES (@new_project_id, 'Integration Testing', '2025-10-01', 20000.00);
+INSERT INTO stages (project_id, name, deadline, budget, color)
+VALUES (@new_project_id, 'Integration Testing', '2025-10-01', 20000.00, '#FECACA');
 SET @stage5_id = LAST_INSERT_ID();
 
-INSERT INTO stages (project_id, name, deadline, budget)
-VALUES (@new_project_id, 'Client Handoff', '2025-11-15', 10000.00);
+INSERT INTO stages (project_id, name, deadline, budget, color)
+VALUES (@new_project_id, 'Client Handoff', '2025-11-15', 10000.00, '#DDD6FE');
 SET @stage6_id = LAST_INSERT_ID();
 
 

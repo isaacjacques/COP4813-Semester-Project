@@ -3,6 +3,7 @@ namespace Src\Config;
 
 use PDO;
 use PDOException;
+use Dotenv\Dotenv;
 
 class Database {
     private $host;
@@ -12,6 +13,11 @@ class Database {
     private $conn;
 
     public function __construct() {
+        if (!isset($_ENV['DB_HOST'])) {
+            $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
+            $dotenv->load();
+        }
+
         $this->host = $_ENV['DB_HOST'];
         $this->dbname = $_ENV['DB_NAME'];
         $this->username = $_ENV['DB_USER'];

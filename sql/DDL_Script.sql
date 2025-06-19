@@ -30,6 +30,7 @@ CREATE TABLE stages (
     name VARCHAR(50) NOT NULL,
     deadline DATE NOT NULL,
     budget DECIMAL(10,2) NOT NULL,
+    color CHAR(7),
     FOREIGN KEY (project_id) REFERENCES projects(project_id)
         ON DELETE CASCADE
 );
