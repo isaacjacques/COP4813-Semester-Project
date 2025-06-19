@@ -1,18 +1,4 @@
-<?php
-// Placeholder data for timeline and budget charts
-$stages = [
-    ['name'=>'Requirement Gathering','color'=>'#A7F3D0'],
-    ['name'=>'Project Proposal','color'=>'#5EEAD4'],
-    ['name'=>'Design','color'=>'#BFDBFE'],
-    ['name'=>'Development','color'=>'#E9D5FF'],
-    ['name'=>'Integration Testing','color'=>'#FECACA'],
-    ['name'=>'Client Handoff','color'=>'#DDD6FE']
-];
-$allocations = [6500, 6500, 27777, 50000, 25000, 2500];
-$used =        [6250, 6250, 25000, 55000, 15000, 1250];
-$totalAlloc = array_sum($allocations);
-$remaining   = max($totalAlloc - array_sum($used),0);
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

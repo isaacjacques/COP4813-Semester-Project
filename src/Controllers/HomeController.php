@@ -1,27 +1,49 @@
 <?php
 namespace Src\Controllers;
+use Src\Config\Database;
+use PDO;
 
 class HomeController {
-    public function index() {
+
+    public function index()
+    {
         session_start();
 
-        if (isset($_SESSION['user_id']) && $_SESSION['user_id'] !== null) {
-            //User is logged in, show home dashboard
-            $this->loadView('home', [
-                'user' => $this->getUserById($_SESSION['user_id'])
-            ]);
-        } else {
-            //User is not logged in, show public welcome page
-            $this->loadView('welcome');
+        // If not logged in, show welcome page
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_id'] === null) {
+            require __DIR__ . '/../../views/welcome.php';
+            return;
         }
-    }
 
-    private function loadView(string $viewName, array $data = []) {
-        extract($data);
-        require __DIR__ . "/../../views/{$viewName}.php";
-    }
+        $db   = new Database();
+        $conn = $db->connect();
 
-    private function getUserById($id) {
-        // todo
+        $stmt = $conn->prepare(
+            "SELECT 
+                s.name, 
+                s.color, 
+                s.deadline,
+                s.budget AS allocated, 
+                IFNULL(SUM(i.amount), 0) AS used
+             FROM stages s
+             LEFT JOIN invoices i ON s.stage_id = i.stage_id
+             GROUP BY s.stage_id
+             ORDER BY s.deadline ASC"
+        );
+        $stmt->execute();
+        $stages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $allocations = array_column($stages, 'allocated');
+        $usedAmounts = array_column($stages, 'used');
+        $totalBudget = array_sum($allocations);
+        $remaining   = max($totalBudget - array_sum($usedAmounts), 0);
+
+        $stageNamesJson   = json_encode(array_column($stages, 'name'));
+        $colorsJson       = json_encode(array_column($stages, 'color'));
+        $allocationsJson  = json_encode($allocations);
+        $usedJson         = json_encode($usedAmounts);
+        $remainingJson    = json_encode($remaining);
+
+        require __DIR__ . '/../../views/home.php';
     }
 }
