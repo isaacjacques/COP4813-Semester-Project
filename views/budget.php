@@ -1,23 +1,4 @@
-<?php
-// Placeholder PHP data; later replace with real DB queries
-$stages = [
-    ['name'=>'Requirement Gathering','allocated'=>6500,'used'=>6250,'color'=>'#A7F3D0'],
-    ['name'=>'Project Proposal','allocated'=>6500,'used'=>6250,'color'=>'#5EEAD4'],
-    ['name'=>'Design','allocated'=>27777,'used'=>25000,'color'=>'#BFDBFE'],
-    ['name'=>'Development','allocated'=>50000,'used'=>55000,'color'=>'#E9D5FF'],
-    ['name'=>'Integration Testing','allocated'=>25000,'used'=>15000,'color'=>'#FECACA'],
-    ['name'=>'Client Handoff','allocated'=>2500,'used'=>1250,'color'=>'#DDD6FE']
-];
-$totalBudget = array_sum(array_column($stages,'allocated'));
-$usedTotal   = array_sum(array_column($stages,'used'));
-$remaining   = max($totalBudget - $usedTotal, 0);
 
-// Prepare JSON for JS
-$stagesJson      = json_encode($stages);
-$totalBudgetJson = json_encode($totalBudget);
-$usedTotalJson   = json_encode($usedTotal);
-$remainingJson   = json_encode($remaining);
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
