@@ -46,4 +46,22 @@ class HomeController {
 
         require __DIR__ . '/../../views/home.php';
     }
+
+    public function getUserProjects(int $userId): array
+    {
+        $db   = new Database();
+        $conn = $db->connect();
+
+        $user_id = $_SESSION['user_id'];
+        $stmt = $conn->prepare(
+            "SELECT project_id, title
+               FROM projects
+              WHERE user_id = :user_id
+           ORDER BY project_id"
+        );
+        $stmt->execute([':user_id' => $user_id]);
+        $count = $stmt->rowCount();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

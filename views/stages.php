@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Project Stages</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
   <?php include 'navbar.php'; ?>
@@ -28,18 +29,18 @@
       <!-- Stage Detail Form -->
       <div class="col-md-8">
         <div class="card p-4 bg-light">
-          <form id="stageForm">
+          <form id="stageForm" action="stages" method="POST">
             <div class="mb-3">
               <label for="stageName" class="form-label">Stage Name</label>
-              <input type="text" id="stageName" name="name" class="form-control" value="">
+              <input type="text" id="stageName" name="name" class="form-control" required value="">
             </div>
             <div class="mb-3">
               <label for="stageBudget" class="form-label">Allocated Budget</label>
-              <input type="number" id="stageBudget" name="allocated" class="form-control" value="">
+              <input type="number" id="stageBudget" name="allocated" class="form-control" required value="">
             </div>
             <div class="mb-3">
               <label for="stageDeadline" class="form-label">Deadline</label>
-              <input type="date" id="stageDeadline" name="deadline" class="form-control" value="">
+              <input type="date" id="stageDeadline" name="deadline" class="form-control" required value="">
             </div>
             <button type="submit" class="btn btn-primary">Save Stage</button>
           </form>
@@ -48,7 +49,6 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     // Placeholder JS: swaps detail form on list click and handles add new
     document.addEventListener('DOMContentLoaded', () => {
@@ -87,10 +87,10 @@
       });
 
       // form submit (placeholder)
-      form.addEventListener('submit', e => {
-        e.preventDefault();
-        alert('Save functionality coming soon');
-      });
+      // form.addEventListener('submit', e => {
+      //   e.preventDefault();
+      //   alert('Save functionality coming soon');
+      // });
     });
   </script>
 </body>

@@ -24,6 +24,8 @@ class InvoiceController
 
     public function index()
     {
+        session_start();
+        
         include __DIR__ . '/../../views/invoices.php';
     }
 }

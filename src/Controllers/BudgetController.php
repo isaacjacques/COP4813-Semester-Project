@@ -6,6 +6,8 @@ use PDO;
 class BudgetController {
 
     public function index() {
+        session_start();
+        
         $db = new Database();
         $conn = $db->connect();
 
