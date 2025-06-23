@@ -1,9 +1,11 @@
 <?php
 use Src\Controllers\HomeController;
 
-$controller = new HomeController();
-$user_id = $_SESSION['user_id'] ?? 0;
-$projects = $controller->getUserProjects($user_id);
+if (!isset($projects)) {
+    $controller = new \Src\Controllers\HomeController();
+    $userId     = $_SESSION['user_id'] ?? 0;
+    $projects   = $controller->getUserProjects($userId);
+}
 
 if (isset($_GET['project_id'])) {
     $_SESSION['project_id'] = (int)$_GET['project_id'];
@@ -69,7 +71,6 @@ foreach ($projects as $proj) {
     </div>
 </div>
 </nav>
-
 <?php if (!isset($_GET['project_id']) && isset($project_id)): ?>
 <script>
     document.addEventListener('DOMContentLoaded', function() {

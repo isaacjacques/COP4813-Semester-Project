@@ -46,44 +46,7 @@
       const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         height: 500,
-        events: [   
-          {
-            title: 'Requirement Gathering',
-            start: '2025-05-01',
-            end: '2025-06-01',
-            color: '#b6e6b0'
-          },
-          {
-            title: 'Project Proposal',
-            start: '2025-06-01',
-            end: '2025-07-01',
-            color: '#a8f0de'
-          },
-          {
-            title: 'Design',
-            start: '2025-07-01',
-            end: '2025-08-01',
-            color: '#b5d1ff'
-          },
-          {
-            title: 'Development',
-            start: '2025-08-01',
-            end: '2025-10-01',
-            color: '#e7c6fa'
-          },
-          {
-            title: 'Integration Testing',
-            start: '2025-10-01',
-            end: '2025-11-01',
-            color: '#ffddcc'
-          },
-          {
-            title: 'Client Handoff',
-            start: '2025-11-01',
-            end: '2025-12-15',
-            color: '#dcd6f7'
-          }
-        ]
+        events: <?= json_encode($stages) ?>
       });
       calendar.render();
     });

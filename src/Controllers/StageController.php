@@ -11,6 +11,11 @@ class StageController
         session_start();
 
         $user_id    = $_SESSION['user_id']    ?? null;
+
+        if (isset($_GET['project_id'])) {
+            $_SESSION['project_id'] = $_GET['project_id'];
+        }
+        
         $project_id = $_SESSION['project_id'] ?? null;
         if (!$user_id || !$project_id) {
             header('Location: /home');
