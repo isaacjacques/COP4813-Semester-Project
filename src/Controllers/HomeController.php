@@ -28,11 +28,8 @@ class HomeController {
             $_SESSION['project_id'] = $projects[0]['project_id'];
         }
 
-        $project_id = $_SESSION['project_id'] ?? null;
+        $project_id = $_SESSION['project_id'] ?? 0;
 
-        if (!$project_id) {
-            
-        }
 
         $db   = new Database();
         $conn = $db->connect();
