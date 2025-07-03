@@ -22,6 +22,8 @@ foreach ($projects as $proj) {
         break;
     }
 }
+
+$is_admin = $_SESSION['is_admin'] ?? 0;
 ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
 <div class="container">
@@ -47,9 +49,11 @@ foreach ($projects as $proj) {
         <li class="nav-item">
         <a class="nav-link" href="/invoices">Invoices</a>
         </li>
-        <li class="nav-item">
-        <a class="nav-link" href="/admin">Admin</a>
-        </li>
+        <?php if ($is_admin==1): ?>
+            <li class="nav-item">
+            <a class="nav-link" href="/admin">Admin</a>
+            </li>
+        <?php endif; ?>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="projectDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <?php echo htmlspecialchars($currentProjectName); ?>
