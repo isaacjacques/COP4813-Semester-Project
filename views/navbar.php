@@ -25,8 +25,8 @@ foreach ($projects as $proj) {
 ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
 <div class="container">
-    <a class="navbar-brand d-flex align-items-center" href="home">
-    <img src="assets/images/logo.svg" alt="Wizard" width="30" height="30" class="me-2">
+    <a class="navbar-brand d-flex align-items-center" href="/home">
+    <img src="/assets/images/logo.svg" alt="Wizard" width="30" height="30" class="me-2">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
             aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,19 +36,19 @@ foreach ($projects as $proj) {
     <div class="collapse navbar-collapse" id="mainNav">
     <ul class="navbar-nav ms-3">
         <li class="nav-item">
-        <a class="nav-link active" href="home">Home</a>
+        <a class="nav-link active" href="/home">Home</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link" href="budget">Budget</a>
+        <a class="nav-link" href="/budget">Budget</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link" href="stages">Stages</a>
+        <a class="nav-link" href="/stages">Stages</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link" href="invoices">Invoices</a>
+        <a class="nav-link" href="/invoices">Invoices</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link" href="admin">Admin</a>
+        <a class="nav-link" href="/admin">Admin</a>
         </li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="projectDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -66,7 +66,7 @@ foreach ($projects as $proj) {
         </li>
     </ul>
     <div class="ms-auto">
-        <a href="logout" class="btn btn-logout">Log Out</a>
+        <a href="/logout" class="btn btn-logout">Log Out</a>
     </div>
     </div>
 </div>
