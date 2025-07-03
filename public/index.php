@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require __DIR__ . '/../vendor/autoload.php';
 
 use Src\Controllers\HomeController;
@@ -7,6 +10,7 @@ use Src\Controllers\BudgetController;
 use Src\Controllers\InvoiceController;
 use Src\Controllers\StageController;
 use Src\Controllers\RegisterController;
+use Src\Controllers\AdminController;
 
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -53,6 +57,18 @@ switch ($uri) {
 
     case '/logout':
         (new AuthController())->logout();
+        break;
+
+    case '/admin':
+        (new AdminController())->index();
+        break;
+
+    case '/admin/user/view':
+        (new AdminController())->viewUser();
+         break;
+        
+    case '/admin/user/update':
+        (new AdminController())->updateUser();
         break;
 
     default:

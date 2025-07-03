@@ -26,7 +26,7 @@ class AuthController
         $conn = $db->connect();
 
         $stmt = $conn->prepare(
-            'SELECT user_id, username, password_hash 
+            'SELECT user_id, username, password_hash, is_admin
              FROM users 
              WHERE username = :username 
              LIMIT 1'
@@ -39,7 +39,9 @@ class AuthController
             session_regenerate_id(true);
 
             $_SESSION['user_id']  = $user['user_id'];
-            $_SESSION['username'] = $user['username'];
+            $_SESSION['username'] = $user['username'];            
+            $_SESSION['is_admin'] = $user['is_admin'];
+
             header('Location: /home');
             exit;
         } 
@@ -60,7 +62,7 @@ class AuthController
             );
         }
         session_destroy();
-        header('Location: /login');
+        header('Location: /');
         exit;
     }
 }

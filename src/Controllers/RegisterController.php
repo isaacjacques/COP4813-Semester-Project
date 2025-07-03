@@ -21,6 +21,7 @@ class RegisterController
         $hashedPassword = md5($password);
         // TODO: make checkbox to allow users to be admin
         $is_admin = 0; 
+        $is_active = 1;
 
         try {
             $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email OR username = :username");
@@ -35,11 +36,12 @@ class RegisterController
             }
 
             // Insert new user
-            $insert = $conn->prepare("INSERT INTO users (username, email, password_hash, is_admin) VALUES (:username, :email, :password, :is_admin)");
+            $insert = $conn->prepare("INSERT INTO users (username, email, password_hash, is_admin, is_active) VALUES (:username, :email, :password, :is_admin, :is_active)");
             $insert->bindParam(':username', $username);
             $insert->bindParam(':email', $email);
             $insert->bindParam(':password', $hashedPassword);
             $insert->bindParam(':is_admin', $is_admin, PDO::PARAM_INT);
+            $insert->bindParam(':is_active', $is_active, PDO::PARAM_INT);;
 
             if ($insert->execute()) {
                 header("Location: ../login?registered=1");
