@@ -26,11 +26,20 @@
       </div>
     </div>
   <?php endif; ?>
-  <!--Alert after failed login-->
+  <!--Alert after failed login because of password mismatch-->
   <?php if (!empty($_GET['error']) && $_GET['error'] == '1'): ?>
     <div class="container mt-3">
       <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>Login failed.</strong> Please check your username and password.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+  <?php endif; ?>
+  <!--Alert after failed login because of inactive user-->
+  <?php if (!empty($_GET['error']) && $_GET['error'] == '2'): ?>
+    <div class="container mt-3">
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Login failed.</strong> Account inactive. Contact admin.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     </div>

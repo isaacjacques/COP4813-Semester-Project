@@ -26,7 +26,7 @@ class AuthController
         $conn = $db->connect();
 
         $stmt = $conn->prepare(
-            'SELECT user_id, username, password_hash, is_admin
+            'SELECT user_id, username, password_hash, is_admin, is_active
              FROM users 
              WHERE username = :username 
              LIMIT 1'
@@ -38,12 +38,24 @@ class AuthController
         if ($user && md5($password) === $user['password_hash']) {
             session_regenerate_id(true);
 
+            
             $_SESSION['user_id']  = $user['user_id'];
             $_SESSION['username'] = $user['username'];            
-            $_SESSION['is_admin'] = $user['is_admin'];
+            $_SESSION['is_admin'] = $user['is_admin'];           
+            $_SESSION['is_active'] = $user['is_active'];
 
-            header('Location: /home');
-            exit;
+            //If user account is active then go home else show login error
+            $is_active = $_SESSION['is_active'];
+            if ($is_active === 0) {
+                $_SESSION = [];
+                session_destroy();
+                header("Location: /login?error=2");
+                exit;
+            } else {
+                header('Location: /home');
+                exit;
+            }
+
         } 
 
         header("Location: /login?error=1");
@@ -52,6 +64,7 @@ class AuthController
 
     public function logout() {
         session_start();
+
         $_SESSION = [];
         if (ini_get("session.use_cookies")) {
             $params = session_get_cookie_params();
@@ -62,7 +75,6 @@ class AuthController
             );
         }
         session_destroy();
-        header('Location: /');
         exit;
     }
 }
