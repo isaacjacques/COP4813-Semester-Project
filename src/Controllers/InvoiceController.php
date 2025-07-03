@@ -26,6 +26,6 @@ class InvoiceController
     {
         session_start();
         
-        include __DIR__ . '/../../views/invoices.php';
+        include __DIR__ . '/../views/invoices.php';
     }
 }

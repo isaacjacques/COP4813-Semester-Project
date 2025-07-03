@@ -12,7 +12,7 @@ class HomeController {
         // If not logged in, show welcome page
         $user_id = $_SESSION['user_id'] ?? null;
         if (!$user_id) {
-            require __DIR__ . '/../../views/welcome.php';
+            require __DIR__ . '/../views/welcome.php';
             return;
         }
         
@@ -65,7 +65,7 @@ class HomeController {
         
         $stages = $this->getProjectStages($project_id);
 
-        require __DIR__ . '/../../views/home.php';
+        require __DIR__ . '/../views/home.php';
     }
 
     public function getProjectStages(int $project_id): array

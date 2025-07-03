@@ -7,7 +7,7 @@ class AuthController
 {
     public function showLoginForm()
     {
-        include __DIR__ . '/../../views/login.php';
+        include __DIR__ . '/../views/login.php';
     }
 
     public function handleLogin()

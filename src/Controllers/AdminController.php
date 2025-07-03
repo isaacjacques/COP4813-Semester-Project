@@ -21,7 +21,7 @@ class AdminController
         $stmt->execute();
         $users = $stmt->fetchAll(\PDO::FETCH_ASSOC);
     
-        include __DIR__ . '/../../views/admin_panel.php';
+        include __DIR__ . '/../views/admin_panel.php';
     }
 
     public function viewUser() {
@@ -52,7 +52,7 @@ class AdminController
             exit;
         }
     
-        include __DIR__ . '/../../views/admin_user_form.php';
+        include __DIR__ . '/../views/admin_user_form.php';
     }
     
 

@@ -41,7 +41,7 @@ class StageController
         ]);
         $stages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        include __DIR__ . '/../../views/stages.php';
+        include __DIR__ . '/../views/stages.php';
     }
 
 

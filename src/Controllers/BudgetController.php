@@ -34,6 +34,6 @@ class BudgetController {
         $usedTotalJson   = json_encode($usedTotal);
         $remainingJson   = json_encode($remaining);
 
-        include __DIR__ . '/../../views/budget.php';
+        include __DIR__ . '/../views/budget.php';
     }
 }
