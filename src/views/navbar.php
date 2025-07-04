@@ -40,6 +40,11 @@ $is_admin = $_SESSION['is_admin'] ?? 0;
         <li class="nav-item">
         <a class="nav-link active" href="/home">Home</a>
         </li>
+        <?php if ($is_admin==1): ?>
+            <li class="nav-item">
+            <a class="nav-link" href="/projects">Projects</a>
+            </li>
+        <?php endif; ?>
         <li class="nav-item">
         <a class="nav-link" href="/budget">Budget</a>
         </li>

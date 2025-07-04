@@ -1,83 +1,63 @@
 <?php
 namespace Src\Controllers;
-use Src\Config\Database;
-use PDO;
+
+use Src\Models\Stage;
 
 class StageController
 {
+    protected $model;
 
-    public function index()
+    public function __construct()
     {
         session_start();
+        $this->model = new Stage();
+    }
 
-        $user_id    = $_SESSION['user_id']    ?? null;
-
-        if (isset($_GET['project_id'])) {
-            $_SESSION['project_id'] = $_GET['project_id'];
-        }
-        
-        $project_id = $_SESSION['project_id'] ?? null;
-        if (!$user_id || !$project_id) {
+    public function index(): void
+    {
+        $userId    = $_SESSION['user_id'] ?? null;
+        $projectId = $_SESSION['project_id'] ?? null;
+        if (!$userId || !$projectId) {
             header('Location: /home');
             exit;
         }
-        
-        $db = new Database();
-        $conn = $db->connect();
 
-        $stmt = $conn->prepare(
-            "SELECT 
-                name, 
-                budget AS allocated, 
-                deadline, 
-                color 
-             FROM stages 
-             WHERE project_id=:project_id
-
-             ORDER BY deadline ASC"
-        );
-        $stmt->execute([
-            ':project_id'=> $project_id
-        ]);
-        $stages = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+        $stages = $this->model->allByProject($projectId);
         include __DIR__ . '/../views/stages.php';
     }
 
-
-    public function save()
+    public function save(): void
     {
-        session_start();
-        
-        $user_id    = $_SESSION['user_id'] ?? null;
-        $project_id = $_SESSION['project_id'] ?? null;
+        $userId    = $_SESSION['user_id'] ?? null;
+        $projectId = $_SESSION['project_id'] ?? null;
+        if (!$userId || !$projectId) {
+            header('Location: /home');
+            exit;
+        }
 
-        $name = trim($_POST['name']);
-        $allocated = trim($_POST['allocated']);
-        $deadline = trim($_POST['deadline']);
+        $rawId    = $_POST['stage_id'] ?? '';
+        $stageId  = $rawId !== '' ? (int)$rawId : null;
+        $data     = [
+            'project_id' => $projectId,
+            'stage_id'   => $stageId,
+            'name'       => trim($_POST['name']),
+            'allocated'  => trim($_POST['allocated']),
+            'deadline'   => trim($_POST['deadline']),
+            'color'      => trim($_POST['color'] ?? '#D0E6A5'),
+        ];
 
-        $db = new Database();
-        $conn = $db->connect();
-
-        $stmt = $conn->prepare(
-            "INSERT INTO stages (project_id, name, budget, deadline, color) 
-                VALUES (:project_id, :name, :budget, :deadline, :color)"
-        );
-
-        $success = $stmt->execute([
-            ':project_id'=> $project_id,
-            ':name'      => $name,
-            ':budget'    => $allocated,
-            ':deadline'  => $deadline,
-            ':color'     => '#D0E6A5'
-        ]);
+        if ($stageId !== null && $this->model->findByProject($stageId, $projectId)) {
+            $success = $this->model->update($stageId, $data);
+        } else {
+            $success = $this->model->create($data);
+        }
 
         if ($success) {
             header('Location: /stages');
             exit;
         }
 
-        echo "Failed to save stage.";
+        echo "Error saving stage.";
         exit;
     }
 }

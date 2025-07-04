@@ -9,6 +9,7 @@ use Src\Controllers\InvoiceController;
 use Src\Controllers\StageController;
 use Src\Controllers\RegisterController;
 use Src\Controllers\AdminController;
+use Src\Controllers\ProjectController;
 
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -34,6 +35,14 @@ switch ($uri) {
             (new StageController())->save();
         } else {
             (new StageController())->index();
+        }
+        break;
+
+    case '/projects':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            (new ProjectController())->save();
+        } else {
+            (new ProjectController())->index();
         }
         break;
 
