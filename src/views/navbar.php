@@ -1,10 +1,12 @@
 <?php
-use Src\Controllers\HomeController;
+use Src\Config\Database;
+use Src\Models\Project;
 
-if (!isset($projects)) {
-    $controller = new \Src\Controllers\HomeController();
-    $userId     = $_SESSION['user_id'] ?? 0;
-    $projects   = $controller->getUserProjects($userId);
+$userId = $_SESSION['user_id'] ?? null;
+$projects = [];
+if ($userId) {
+    $model = new Project();
+    $projects = $model->allByUser($userId);
 }
 
 if (isset($_GET['project_id'])) {
@@ -14,7 +16,6 @@ if (isset($_GET['project_id'])) {
 }
 
 $project_id = $_SESSION['project_id'] ?? null;
-
 $currentProjectName = 'Select Project';
 foreach ($projects as $proj) {
     if ($proj['project_id'] == $project_id) {
@@ -22,6 +23,7 @@ foreach ($projects as $proj) {
         break;
     }
 }
+
 
 $is_admin = $_SESSION['is_admin'] ?? 0;
 ?>

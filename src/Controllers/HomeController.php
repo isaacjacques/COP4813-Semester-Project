@@ -1,6 +1,7 @@
 <?php
 namespace Src\Controllers;
 use Src\Config\Database;
+use Src\Models\Project;
 use PDO;
 
 class HomeController {
@@ -17,7 +18,8 @@ class HomeController {
         }
         
         if (!isset($_SESSION['projects'])) {
-            $projects = $this->getUserProjects($user_id);
+            $projectModel = new Project();
+            $projects = $projectModel->allByUser($user_id);
         }
 
         if (isset($_GET['project_id'])) {

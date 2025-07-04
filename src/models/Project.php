@@ -5,19 +5,23 @@ class Project extends BaseModel
 {
  public function allByUser(int $userId): array
     {
-        $sql = "SELECT project_id, title, description, total_budget
-                FROM projects
-                WHERE user_id = :user_id
-                ORDER BY project_id ASC";
+        $sql = "SELECT pu.project_id, title, description, total_budget
+                FROM projects p 
+                INNER JOIN project_users pu
+                    ON p.project_id = pu.project_id
+                WHERE pu.user_id = :user_id
+                ORDER BY pu.project_id ASC";
         return $this->fetchAll($sql, [':user_id' => $userId]);
     }
 
     public function findByUser(int $projectId, int $userId): ?array
     {
-        $sql = "SELECT project_id, title, description, total_budget
+        $sql = "SELECT pu.project_id, title, description, total_budget
                 FROM projects
-                WHERE project_id = :project_id
-                  AND user_id    = :user_id";
+                INNER JOIN project_users pu
+                    ON p.project_id = pu.project_id
+                WHERE pu.user_id = :user_id
+                ORDER BY pu.project_id ASC";
         return $this->fetchOne($sql, [
             ':project_id' => $projectId,
             ':user_id'    => $userId,

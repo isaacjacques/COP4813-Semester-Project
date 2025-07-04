@@ -8,9 +8,9 @@ class Invoice extends BaseModel
         $sql = "SELECT inv.invoice_id, inv.stage_id, inv.amount, inv.description, inv.date_issued
                 FROM invoices inv
                 JOIN stages st ON inv.stage_id = st.stage_id
-                JOIN projects p ON st.project_id = p.project_id
-                WHERE p.project_id = :project_id
-                  AND p.user_id    = :user_id
+                JOIN project_users pu ON st.project_id = pu.project_id
+                WHERE pu.project_id = :project_id
+                  AND pu.user_id    = :user_id
                 ORDER BY inv.date_issued DESC";
         return $this->fetchAll($sql, [
             ':project_id' => $projectId,
@@ -23,9 +23,9 @@ class Invoice extends BaseModel
         $sql = "SELECT inv.invoice_id, inv.stage_id, inv.amount, inv.description, inv.date_issued
                 FROM invoices inv
                 JOIN stages st ON inv.stage_id = st.stage_id
-                JOIN projects p ON st.project_id = p.project_id
+                JOIN project_users pu ON st.project_id = pu.project_id
                 WHERE inv.invoice_id = :invoice_id
-                  AND p.user_id      = :user_id";
+                  AND pu.user_id      = :user_id";
         return $this->fetchOne($sql, [
             ':invoice_id' => $invoiceId,
             ':user_id'    => $userId
