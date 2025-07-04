@@ -20,7 +20,7 @@
             <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
               Dashboard
             </a>
-            <a href="#" class="list-group-item list-group-item-action">Manage Users</a>
+            <a href="/admin/users" class="list-group-item list-group-item-action">Manage Users</a>
             <a href="#" class="list-group-item list-group-item-action">Project Oversight</a>
             <a href="#" class="list-group-item list-group-item-action">Settings</a>
           </div>

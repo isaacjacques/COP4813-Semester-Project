@@ -74,6 +74,16 @@ switch ($uri) {
         (new AdminController())->index();
         break;
 
+    case '/admin/users':
+        (new AdminController())->manageUsers();
+        break;
+
+    case '/admin/assignUser':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            (new AdminController())->assignUser();
+        }
+        break;
+        
     case '/admin/user/view':
         (new AdminController())->viewUser();
          break;

@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS invoices;
 DROP TABLE IF EXISTS stages;
 DROP TABLE IF EXISTS projects;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS project_users;
 
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -45,4 +46,20 @@ CREATE TABLE invoices (
     date_issued DATE NOT NULL,
     FOREIGN KEY (stage_id) REFERENCES stages(stage_id)
         ON DELETE CASCADE
+);
+
+CREATE TABLE project_users (
+    project_id INT NOT NULL,
+    user_id    INT NOT NULL,
+    PRIMARY KEY (project_id, user_id),
+    CONSTRAINT fk_projectusers_project
+      FOREIGN KEY (project_id)
+      REFERENCES projects (project_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT fk_projectusers_user
+      FOREIGN KEY (user_id)
+      REFERENCES users (user_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
 );

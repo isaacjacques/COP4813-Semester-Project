@@ -118,4 +118,67 @@ class AdminController
         header("Location: /admin?updated=1");
         exit;
     }
+
+     public function manageUsers()
+    {
+        session_start();
+
+        if ((int)($_SESSION['is_admin'] ?? 0) !== 1) {
+            echo "This page is only accessible for admins.";
+            return;
+        }
+
+        $db = new Database();
+        $conn = $db->connect();
+
+        $projStmt = $conn->prepare("SELECT project_id, title FROM projects ORDER BY title");
+        $projStmt->execute();
+        $projects = $projStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $userStmt = $conn->prepare("SELECT user_id, username FROM users");
+        $userStmt->execute();
+        $users = $userStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $selectedProjectId = $_GET['project_id'] ?? ($projects[0]['project_id'] ?? null);
+
+        $assignedStmt = $conn->prepare(
+            "SELECT u.user_id, u.username
+             FROM users u
+             JOIN project_users pu ON u.user_id = pu.user_id
+             WHERE pu.project_id = :project_id"
+        );
+        $assignedStmt->execute([':project_id' => $selectedProjectId]);
+        $assignedUsers = $assignedStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        include __DIR__ . '/../views/manage_users.php';
+    }
+
+    public function assignUser()
+    {
+        session_start();
+
+        if ((int)($_SESSION['is_admin'] ?? 0) !== 1) {
+            echo "This page is only accessible for admins.";
+            return;
+        }
+
+        $projectId = (int)($_POST['project_id'] ?? 0);
+        $userId    = (int)($_POST['user_id'] ?? 0);
+
+        if ($projectId && $userId) {
+            $db = new Database();
+            $conn = $db->connect();
+
+            $stmt = $conn->prepare(
+                "INSERT IGNORE INTO project_users (project_id, user_id) VALUES (:project_id, :user_id)"
+            );
+            $stmt->execute([
+                ':project_id' => $projectId,
+                ':user_id'    => $userId
+            ]);
+        }
+
+        header("Location: /admin/users?project_id={$projectId}");
+        exit;
+    }
 }    
