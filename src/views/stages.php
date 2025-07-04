@@ -8,16 +8,7 @@
 <body>
   <?php include 'navbar.php'; ?>
   <div class="container mt-4">
-    <div class="d-flex justify-content-between mb-3">
-      <h3>Stages</h3>
-      <select id="projectSelect" class="form-select w-auto">
-        <?php foreach($projects as $p): ?>
-          <option value="<?= $p['project_id'] ?>" <?= $p['project_id']==$projectId?'selected':'' ?>>
-            <?= htmlspecialchars($p['title']) ?>
-          </option>
-        <?php endforeach; ?>
-      </select>
-    </div>
+    <h3>Stages</h3>
     <div class="row">
       <div class="col-md-4">
         <div id="stageList" class="list-group overflow-auto" style="max-height:400px;"></div>
@@ -52,18 +43,17 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const projectSelect = document.getElementById('projectSelect');
-      const stageList     = document.getElementById('stageList');
-      const form          = document.getElementById('stageForm');
-      const idInput       = document.getElementById('stageId');
-      const nameIn        = form.elements['name'];
-      const budIn         = form.elements['allocated'];
-      const dateIn        = form.elements['deadline'];
-      const colorIn       = form.elements['color'];
+      const stageList = document.getElementById('stageList');
+      const form      = document.getElementById('stageForm');
+      const idInput   = document.getElementById('stageId');
+      const nameIn    = form.elements['name'];
+      const budIn     = form.elements['allocated'];
+      const dateIn    = form.elements['deadline'];
+      const colorIn   = form.elements['color'];
       let stages = [];
 
-      function fetchStages(projectId) {
-        fetch(`/stages?project_id=${projectId}&ajax=1`)
+      function fetchStages() {
+        fetch(`/stages?ajax=1`)
           .then(res => res.json())
           .then(data => {
             stages = Array.isArray(data) ? data : [];
@@ -95,9 +85,7 @@
           colorIn.value = '#D0E6A5';
           return;
         }
-        if (!Array.isArray(stages) || idx < 0 || idx >= stages.length) {
-          return;
-        }
+        if (!Array.isArray(stages) || idx < 0 || idx >= stages.length) return;
         const buttons = stageList.querySelectorAll('button');
         buttons.forEach(btn => btn.classList.remove('active'));
         buttons[idx].classList.add('active');
@@ -109,22 +97,16 @@
         colorIn.value = stage.color;
       }
 
-      projectSelect.addEventListener('change', e => {
-        fetchStages(e.target.value);
-      });
-
       stageList.addEventListener('click', e => {
         const btn = e.target.closest('button[data-index]');
         if (!btn) return;
-        const idx = Number(btn.dataset.index);
-        loadStage(idx);
+        loadStage(Number(btn.dataset.index));
       });
 
       document.getElementById('addStageBtn').addEventListener('click', () => loadStage(null));
 
-      fetchStages(projectSelect.value);
+      fetchStages();
     });
   </script>
 </body>
-</html>
 </html>
