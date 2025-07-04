@@ -139,7 +139,10 @@ class AdminController
         $userStmt->execute();
         $users = $userStmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $selectedProjectId = $_SESSION['project_id'] ?? ($projects[0]['project_id'] ?? null);
+        if (isset($_GET['project_id'])) {
+            $_SESSION['project_id'] = (int)$_GET['project_id'];
+        }
+        $selectedProjectId = $_SESSION['project_id'] ?? 0;
  
         $assignedStmt = $conn->prepare(
             "SELECT u.user_id, u.username
