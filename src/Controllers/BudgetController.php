@@ -15,7 +15,13 @@ class BudgetController {
             $_SESSION['project_id'] = (int) $_GET['project_id'];
         }
 
+        $userId    = $_SESSION['user_id'] ?? null;
         $projectId = $_SESSION['project_id'] ?? null;
+
+        if (!$userId || !$projectId) {
+            header('Location: /home');
+            exit;
+        }
 
         $stmt = $conn->prepare(
             "SELECT 

@@ -3,9 +3,9 @@ USE project_wizard;
 
 DROP TABLE IF EXISTS invoices;
 DROP TABLE IF EXISTS stages;
+DROP TABLE IF EXISTS project_users;
 DROP TABLE IF EXISTS projects;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS project_users;
 
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -18,13 +18,10 @@ CREATE TABLE users (
 
 CREATE TABLE projects (
     project_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
     title VARCHAR(50) NOT NULL,
     description TEXT,
     total_budget DECIMAL(10,2) NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
-        ON DELETE CASCADE
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE stages (

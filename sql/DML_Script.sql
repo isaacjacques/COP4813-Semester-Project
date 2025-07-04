@@ -4,17 +4,14 @@ INSERT INTO users (username, email, password_hash, is_admin, is_active)
 VALUES ('admin', 'admin@email.com', MD5('password'), 1, 1);
 SET @new_user_id = LAST_INSERT_ID();
 
-INSERT INTO projects (user_id, title, description, total_budget)
+INSERT INTO projects (title, description, total_budget)
 VALUES
-  (@new_user_id, 'Shipping System', 'Develop and integrate a new shipping and manifesting system', 250000.00);
+  ('Shipping System', 'Develop and integrate a new shipping and manifesting system', 250000.00);
 SET @new_project_id = LAST_INSERT_ID();
 
-INSERT INTO projects (user_id, title, description, total_budget)
+INSERT INTO project_users (project_id, user_id)
 VALUES
-  (@new_user_id, 'Test Project 2', 'Testing project selection', 20000.00)
-  ,(@new_user_id, 'Test Project 3', 'Testing project selection', 30000.00)
-  ,(@new_user_id, 'Test Project 4', 'Testing project selection', 40000.00);
-
+  (@new_project_id, @new_user_id);
 
 INSERT INTO stages (project_id, name, deadline, budget, color)
 VALUES (@new_project_id, 'Requirement Gathering', '2025-06-01', 10000.00, '#A7F3D0');
