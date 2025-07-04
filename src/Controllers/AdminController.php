@@ -1,6 +1,9 @@
 <?php
 namespace Src\Controllers;
 use Src\Config\Database;
+use Src\Models\Project;
+use Src\Models\ProjectUser;
+
 use PDO;
 class AdminController
 {
@@ -182,6 +185,34 @@ class AdminController
         }
 
         header("Location: /admin/users?project_id={$projectId}");
+        exit;
+    }
+
+    public function projectOverview()
+    {
+        session_start();
+        $adminId = $_SESSION['user_id'];
+
+        $projects = (new Project())->allByUser($adminId);
+
+        include __DIR__ . '/../views/project_overview.php';
+    }
+
+    public function deleteProject(array $params)
+    {
+        session_start();
+        $adminId   = $_SESSION['user_id'];
+        $projectId = (int) ($params['project_id'] ?? 0);
+
+        $puModel = new ProjectUser();
+        if ($puModel->isUserAssigned($projectId, $adminId)) {
+            $puModel->deleteByProjectId($projectId);
+
+            (new Project())->deleteById($projectId);
+
+        }
+
+        header('Location: /admin/project_overview');
         exit;
     }
 }    

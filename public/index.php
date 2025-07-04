@@ -92,6 +92,16 @@ switch ($uri) {
         (new AdminController())->updateUser();
         break;
 
+    case '/admin/project_overview':
+        (new AdminController())->projectOverview();
+        break;
+
+    case '/admin/deleteProject':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            (new AdminController())->deleteProject($_POST);
+        }
+        break;
+
     default:
         http_response_code(404);
         echo "404 - Page Not Found";

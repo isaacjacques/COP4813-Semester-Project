@@ -20,8 +20,8 @@
               Dashboard
             </a>
             <a href="/admin/users" class="list-group-item list-group-item-action active">Manage Users</a>
-            <a href="#" class="list-group-item list-group-item-action">Project Oversight</a>
-            <a href="#" class="list-group-item list-group-item-action">Settings</a>
+            <a href="/admin/project_overview" class="list-group-item list-group-item-action">Project Oversight</a>
+            <!-- <a href="#" class="list-group-item list-group-item-action">Settings</a> -->
           </div>
         </div>
 

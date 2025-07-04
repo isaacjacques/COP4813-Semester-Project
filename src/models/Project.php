@@ -1,9 +1,12 @@
 <?php
 namespace Src\Models;
+use Src\Config\Database;
 
 class Project extends BaseModel
 {
- public function allByUser(int $userId): array
+    protected string $table = 'projects';
+
+    public function allByUser(int $userId): array
     {
         $sql = "SELECT pu.project_id, title, description, total_budget
                 FROM projects p 
@@ -59,5 +62,15 @@ class Project extends BaseModel
     public function getLastInsertId(): int
     {
         return (int) $this->db->lastInsertId();
+    }
+
+    public function deleteById(int $projectId): void
+    {
+        $sql = "DELETE
+                  FROM {$this->table}
+                 WHERE project_id = :project_id";
+        $this->execute($sql, [
+            ':project_id' => $projectId
+        ]);
     }
 }

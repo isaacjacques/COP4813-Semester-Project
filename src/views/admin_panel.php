@@ -21,8 +21,8 @@
               Dashboard
             </a>
             <a href="/admin/users" class="list-group-item list-group-item-action">Manage Users</a>
-            <a href="#" class="list-group-item list-group-item-action">Project Oversight</a>
-            <a href="#" class="list-group-item list-group-item-action">Settings</a>
+            <a href="/admin/project_overview" class="list-group-item list-group-item-action">Project Oversight</a>
+            <!-- <a href="#" class="list-group-item list-group-item-action">Settings</a> -->
           </div>
         </div>
 
@@ -58,8 +58,6 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
-
-            <p class="text-muted mt-4">More features coming soon…</p>
           </div>
         </div>
       </div>
