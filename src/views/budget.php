@@ -30,7 +30,6 @@
   </div>
 
   <script>
-    // Bring PHP data into JS
     const stages         = <?php echo $stagesJson; ?>;
     const totalBudget    = <?php echo $totalBudgetJson; ?>;
     const usedTotal      = <?php echo $usedTotalJson; ?>;

@@ -27,7 +27,11 @@ switch ($uri) {
         break;
 
     case '/invoices':
-        (new InvoiceController())->index();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            (new InvoiceController())->save();
+        } else {
+            (new InvoiceController())->index();
+        }
         break;
 
     case '/stages':

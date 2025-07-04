@@ -2,42 +2,57 @@
 namespace Src\Controllers;
 
 use Src\Models\Stage;
+use Src\Models\Project;
 
 class StageController
 {
-    protected $model;
+    protected Stage   $stageModel;
+    protected Project $projectModel;
 
     public function __construct()
     {
         session_start();
-        $this->model = new Stage();
+        $this->stageModel   = new Stage();
+        $this->projectModel = new Project();
     }
 
     public function index(): void
     {
-        $userId    = $_SESSION['user_id'] ?? null;
+        if (isset($_GET['project_id'])) {
+            $_SESSION['project_id'] = (int)$_GET['project_id'];
+        }
+
+        $userId    = $_SESSION['user_id']    ?? null;
         $projectId = $_SESSION['project_id'] ?? null;
         if (!$userId || !$projectId) {
             header('Location: /home');
             exit;
         }
 
-        $stages = $this->model->allByProject($projectId);
+        $projects = $this->projectModel->allByUser($userId);
+        $stages   = $this->stageModel->allByProject($projectId);
+
+        if (!empty($_GET['ajax'])) {
+            header('Content-Type: application/json');
+            echo json_encode($stages);
+            exit;
+        }
+
         include __DIR__ . '/../views/stages.php';
     }
 
     public function save(): void
     {
-        $userId    = $_SESSION['user_id'] ?? null;
+        $userId    = $_SESSION['user_id']    ?? null;
         $projectId = $_SESSION['project_id'] ?? null;
         if (!$userId || !$projectId) {
             header('Location: /home');
             exit;
         }
 
-        $rawId    = $_POST['stage_id'] ?? '';
-        $stageId  = $rawId !== '' ? (int)$rawId : null;
-        $data     = [
+        $rawId   = $_POST['stage_id'] ?? '';
+        $stageId = $rawId !== '' ? (int)$rawId : null;
+        $data    = [
             'project_id' => $projectId,
             'stage_id'   => $stageId,
             'name'       => trim($_POST['name']),
@@ -46,10 +61,10 @@ class StageController
             'color'      => trim($_POST['color'] ?? '#D0E6A5'),
         ];
 
-        if ($stageId !== null && $this->model->findByProject($stageId, $projectId)) {
-            $success = $this->model->update($stageId, $data);
+        if ($stageId !== null && $this->stageModel->findByProject($stageId, $projectId)) {
+            $success = $this->stageModel->update($stageId, $data);
         } else {
-            $success = $this->model->create($data);
+            $success = $this->stageModel->create($data);
         }
 
         if ($success) {

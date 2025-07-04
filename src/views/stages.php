@@ -4,27 +4,25 @@
   <meta charset="UTF-8">
   <title>Stages</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
   <?php include 'navbar.php'; ?>
   <div class="container mt-4">
-    <h3>Stages</h3>
+    <div class="d-flex justify-content-between mb-3">
+      <h3>Stages</h3>
+      <select id="projectSelect" class="form-select w-auto">
+        <?php foreach($projects as $p): ?>
+          <option value="<?= $p['project_id'] ?>" <?= $p['project_id']==$projectId?'selected':'' ?>>
+            <?= htmlspecialchars($p['title']) ?>
+          </option>
+        <?php endforeach; ?>
+      </select>
+    </div>
     <div class="row">
       <div class="col-md-4">
-        <div id="stageList" class="list-group" style="max-height:400px; overflow-y:auto;">
-          <?php foreach($stages as $idx => $s): ?>
-            <button type="button"
-                    class="list-group-item list-group-item-action"
-                    data-index="<?= $idx ?>"
-                    data-stage-id="<?= $s['stage_id'] ?>">
-              <?= htmlspecialchars($s['name']) ?>
-            </button>
-          <?php endforeach; ?>
-        </div>
+        <div id="stageList" class="list-group overflow-auto" style="max-height:400px;"></div>
         <button id="addStageBtn" class="btn btn-outline-primary w-100 mt-2">+</button>
       </div>
-
       <div class="col-md-8">
         <div class="card p-4 bg-light">
           <form id="stageForm" action="/stages" method="POST">
@@ -43,7 +41,7 @@
             </div>
             <div class="mb-3">
               <label for="stageColor" class="form-label">Color</label>
-              <input type="color" id="stageColor" name="color" class="form-control form-control-color" value="#D0E6A5">
+              <input type="color" id="stageColor" name="color" class="form-control form-control-color">
             </div>
             <button type="submit" class="btn btn-primary">Save Stage</button>
           </form>
@@ -51,46 +49,82 @@
       </div>
     </div>
   </div>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const stages    = <?= json_encode($stages) ?>;
-      const list      = document.getElementById('stageList');
-      const form      = document.getElementById('stageForm');
-      const idInput   = document.getElementById('stageId');
-      const nameIn    = form.elements['name'];
-      const budIn     = form.elements['allocated'];
-      const dateIn    = form.elements['deadline'];
-      const colorIn   = form.elements['color'];
+      const projectSelect = document.getElementById('projectSelect');
+      const stageList     = document.getElementById('stageList');
+      const form          = document.getElementById('stageForm');
+      const idInput       = document.getElementById('stageId');
+      const nameIn        = form.elements['name'];
+      const budIn         = form.elements['allocated'];
+      const dateIn        = form.elements['deadline'];
+      const colorIn       = form.elements['color'];
+      let stages = [];
+
+      function fetchStages(projectId) {
+        fetch(`/stages?project_id=${projectId}&ajax=1`)
+          .then(res => res.json())
+          .then(data => {
+            stages = Array.isArray(data) ? data : [];
+            renderList();
+          })
+          .catch(console.error);
+      }
+
+      function renderList() {
+        stageList.innerHTML = '';
+        stages.forEach((s, idx) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'list-group-item list-group-item-action';
+          btn.dataset.index = idx;
+          btn.textContent = s.name;
+          stageList.appendChild(btn);
+        });
+        loadStage(null);
+      }
 
       function loadStage(idx) {
         if (idx === null) {
-          idInput.value   = '';
-          nameIn.value    = '';
-          budIn.value     = '';
-          dateIn.value    = '';
-          colorIn.value   = '#D0E6A5';
-          list.querySelectorAll('.list-group-item').forEach(btn => btn.classList.remove('active'));
+          stageList.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+          idInput.value = '';
+          nameIn.value = '';
+          budIn.value = '';
+          dateIn.value = '';
+          colorIn.value = '#D0E6A5';
           return;
         }
-        const s = stages[idx];
-        idInput.value   = s.stage_id;
-        nameIn.value    = s.name;
-        budIn.value     = s.allocated;
-        dateIn.value    = s.deadline;
-        colorIn.value   = s.color;
-        list.querySelectorAll('.list-group-item').forEach(btn => btn.classList.remove('active'));
-        list.querySelector(`[data-index='${idx}']`).classList.add('active');
+        if (!Array.isArray(stages) || idx < 0 || idx >= stages.length) {
+          return;
+        }
+        const buttons = stageList.querySelectorAll('button');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        buttons[idx].classList.add('active');
+        const stage = stages[idx];
+        idInput.value = stage.stage_id;
+        nameIn.value = stage.name;
+        budIn.value = stage.allocated;
+        dateIn.value = stage.deadline;
+        colorIn.value = stage.color;
       }
 
-      loadStage(null);
-      list.addEventListener('click', e => {
-        if (e.target.matches('.list-group-item')) {
-          loadStage(e.target.dataset.index);
-        }
+      projectSelect.addEventListener('change', e => {
+        fetchStages(e.target.value);
       });
+
+      stageList.addEventListener('click', e => {
+        const btn = e.target.closest('button[data-index]');
+        if (!btn) return;
+        const idx = Number(btn.dataset.index);
+        loadStage(idx);
+      });
+
       document.getElementById('addStageBtn').addEventListener('click', () => loadStage(null));
+
+      fetchStages(projectSelect.value);
     });
   </script>
 </body>
+</html>
 </html>
