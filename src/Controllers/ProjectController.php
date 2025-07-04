@@ -2,15 +2,18 @@
 namespace Src\Controllers;
 
 use Src\Models\Project;
+use Src\Models\ProjectUser;
 
 class ProjectController
 {
     protected $model;
+    protected $projectUserModel;
 
     public function __construct()
     {
         session_start();
-        $this->model = new Project();
+        $this->model            = new Project();
+        $this->projectUserModel = new ProjectUser();
     }
 
     public function index(): void
@@ -47,6 +50,11 @@ class ProjectController
             $success = $this->model->update($projectId, $data);
         } else {
             $success = $this->model->create($data);
+            if ($success) {
+                // Link the user to the new project
+                $newProjectId = (int)$this->model->getLastInsertId();
+                $this->projectUserModel->create($newProjectId, $userId);
+            }
         }
 
         if ($success) {

@@ -31,11 +31,10 @@ class Project extends BaseModel
     public function create(array $data): bool
     {
         $sql = "INSERT INTO projects
-                (user_id, title, description, total_budget)
+                (title, description, total_budget)
                 VALUES
-                (:user_id, :title, :description, :total_budget)";
+                (:title, :description, :total_budget)";
         return $this->execute($sql, [
-            ':user_id'      => $data['user_id'],
             ':title'        => $data['title'],
             ':description'  => $data['description'],
             ':total_budget' => $data['total_budget'],
@@ -55,5 +54,10 @@ class Project extends BaseModel
             ':total_budget' => $data['total_budget'],
             ':project_id'   => $projectId,
         ]);
+    }
+
+    public function getLastInsertId(): int
+    {
+        return (int) $this->db->lastInsertId();
     }
 }
