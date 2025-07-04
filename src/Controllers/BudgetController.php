@@ -11,6 +11,12 @@ class BudgetController {
         $db = new Database();
         $conn = $db->connect();
 
+        if (isset($_GET['project_id'])) {
+            $_SESSION['project_id'] = (int) $_GET['project_id'];
+        }
+
+        $projectId = $_SESSION['project_id'] ?? null;
+
         $stmt = $conn->prepare(
             "SELECT 
                 s.name, 
@@ -19,10 +25,14 @@ class BudgetController {
                 s.color 
              FROM stages s 
              LEFT JOIN invoices i ON s.stage_id = i.stage_id 
+             WHERE s.project_id = :project_id
              GROUP BY s.stage_id 
              ORDER BY s.deadline ASC"
         );
-        $stmt->execute();
+        $params=[
+            ':project_id' => $projectId
+        ];
+        $stmt->execute($params);
         $stages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $totalBudget    = array_sum(array_column($stages, 'allocated'));
