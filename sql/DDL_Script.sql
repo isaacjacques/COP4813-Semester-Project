@@ -14,7 +14,8 @@ CREATE TABLE users (
     email VARCHAR(50) NOT NULL UNIQUE,
     password_hash VARCHAR(50) NOT NULL,
     is_admin TINYINT(1) NOT NULL,
-    is_active TINYINT(1) NOT NULL
+    is_active TINYINT(1) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE projects (

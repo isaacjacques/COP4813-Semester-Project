@@ -237,7 +237,7 @@ class AdminController extends BaseController
         $from     = isset($input['from']) ? new DateTime($input['from']) : new DateTime('-30 days');
         $to       = isset($input['to'])   ? new DateTime($input['to'])   : new DateTime('now');
         $interval = $input['interval']    ?? 'day';
-        $role     = $input['role']        ?? '';
+        $role     = strtolower($input['role'] ?? '');
 
         $model = new Analytics();
         $response = [
@@ -246,7 +246,7 @@ class AdminController extends BaseController
             'activeInactive' => $model->getActiveInactiveCounts($from, $to),
             'projectCount'   => $model->getProjectCount(),
             'stageCount'     => $model->getStageCount(),
-            'pageUsage'      => $model->getPageUsage($from, $to)
+            'pageUsage'      => $model->getPageUsage($from, $to, 10, $role),
         ];
 
         header('Content-Type: application/json');
