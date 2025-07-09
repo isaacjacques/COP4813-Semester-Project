@@ -51,10 +51,13 @@ SET @web_stage3 = LAST_INSERT_ID();
 
 INSERT INTO invoices (stage_id, amount, description, date_issued) VALUES
   (@mkt_stage1, 5000.00, 'Initial planning payment',            '2025-03-05'),
+  (@mkt_stage1, 1200.00, 'Work payment 2',                      '2025-03-05'),
   (@mkt_stage1, 4500.00, 'Planning completion payment',         '2025-03-14'),
   (@mkt_stage2, 10000.00,'Design kickoff fee',                  '2025-03-20'),
   (@mkt_stage2, 12000.00,'Design completion fee',               '2025-04-01'),
-  (@mkt_stage3, 20000.00,'Execution milestone payment',        '2025-05-01');
+  (@mkt_stage3, 20000.00,'Execution milestone payment 1',        '2025-05-01'),
+  (@mkt_stage3, 20000.00,'Execution milestone payment 2',        '2025-05-01'),
+  (@mkt_stage3, 20000.00,'Execution milestone payment 3',        '2025-05-01');
 
 INSERT INTO invoices (stage_id, amount, description, date_issued) VALUES
   (@web_stage1, 6000.00, 'Requirements gathering invoice',      '2025-04-12'),

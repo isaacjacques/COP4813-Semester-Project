@@ -241,7 +241,8 @@ class AdminController extends BaseController
             'projectCount'   => $model->getProjectCount($from, $today),
             'stageCount'     => $model->getStageCount($from, $today),
             'invoiceCount'   => $model->getInvoiceCount($from, $today),
-            'pageUsage'      => $model->getPageUsage($from, $today, 10, $role)
+            'pageUsage'      => $model->getPageUsage($from, $today, 10, $role),
+            'invoiceTrends'  => $model->getInvoiceTrends('day', $from, $today)
         ];
 
         extract($data);
@@ -270,6 +271,7 @@ class AdminController extends BaseController
             'stageCount'     => $model->getStageCount($from, $to),
             'invoiceCount'   => $model->getInvoiceCount($from, $to),
             'pageUsage'      => $model->getPageUsage($from, $to, 10, $role),
+            'invoiceTrends'  => $model->getInvoiceTrends($interval, $from, $to)
         ];
 
         header('Content-Type: application/json');

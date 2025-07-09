@@ -70,24 +70,30 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6 mb-4">
+              <div class="col-md-6 mb-4">
                 <div class="card p-3">
                     <h6>New Registrations</h6>
                     <canvas id="regTrendsChart"></canvas>
                 </div>
+              </div>
+              <div class="col-md-6 mb-4">
+                <div class="card p-3">
+                  <h6>Invoice Trends</h6>
+                  <canvas id="invoiceTrendsChart"></canvas>
                 </div>
-                <div class="col-md-6 mb-4">
+              </div>
+              <div class="col-md-6 mb-4">
                 <div class="card p-3">
                     <h6>Top Pages</h6>
                     <canvas id="pageUsageChart"></canvas>
                 </div>
-                </div>
-                <div class="col-md-6 mb-4">
+              </div>
+              <div class="col-md-6 mb-4">
                 <div class="card p-3">
                     <h6>Active vs Inactive</h6>
                     <canvas id="activeInactiveChart"></canvas>
                 </div>
-                </div>
+              </div>
             </div>
           </div>
         </div>

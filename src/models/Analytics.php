@@ -45,6 +45,26 @@ class Analytics extends BaseModel {
         return ['labels' => $labels, 'data' => $data];
     }
 
+    public function getInvoiceTrends(string $interval, DateTime $from, DateTime $to): array
+    {
+        $sql = "
+            SELECT date_issued AS period, COUNT(*) AS cnt
+            FROM invoices
+            WHERE date_issued BETWEEN :from AND :to
+            GROUP BY period
+            ORDER BY period ASC
+        ";
+        $params = [
+            ':from' => $from->format('Y-m-d 00:00:00'),
+            ':to'   => $to->format('Y-m-d 23:59:59')
+        ];
+        $rows = $this->fetchAll($sql, $params);
+        return [
+            'labels' => array_column($rows, 'period'),
+            'data'   => array_column($rows, 'cnt')
+        ];
+    }
+
     public function getActiveInactiveCounts(string $role = ''): array
     {
         $sql = "
