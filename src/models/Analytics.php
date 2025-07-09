@@ -7,36 +7,45 @@ use DatePeriod;
 
 class Analytics extends BaseModel {
 
-    public function getTotalUsers(): int
+    public function getTotalUsers(string $role = ''): int
     {
-        $sql = "SELECT COUNT(*) as cnt FROM users";
-        $row = $this->fetchOne($sql);
+        $sql    = "SELECT COUNT(*) AS cnt FROM users";
+        $params = [];
+        if ($role === 'admin') {
+            $sql .= " WHERE is_admin = 1";
+        } elseif ($role === 'nonadmin') {
+            $sql .= " WHERE is_admin = 0";
+        }
+        $row = $this->fetchOne($sql, $params);
         return $row ? (int)$row['cnt'] : 0;
     }
 
-
-    public function getRegistrationTrends(string $interval, DateTime $from, DateTime $to): array
+    public function getRegistrationTrends(string $interval, DateTime $from, DateTime $to, string $role = ''): array
     {
         $sql = "
             SELECT DATE(created_at) AS period, COUNT(*) AS cnt
             FROM users
             WHERE created_at BETWEEN :from AND :to
-            GROUP BY period
-            ORDER BY period ASC
         ";
         $params = [
             ':from' => $from->format('Y-m-d 00:00:00'),
             ':to'   => $to->format('Y-m-d 23:59:59')
         ];
-        $rows = $this->fetchAll($sql, $params);
+        if ($role === 'admin') {
+            $sql .= " AND is_admin = 1";
+        } elseif ($role === 'nonadmin') {
+            $sql .= " AND is_admin = 0";
+        }
+        $sql .= " GROUP BY period ORDER BY period ASC";
 
+        $rows = $this->fetchAll($sql, $params);
         $labels = array_column($rows, 'period');
         $data   = array_column($rows, 'cnt');
 
         return ['labels' => $labels, 'data' => $data];
     }
 
-    public function getActiveInactiveCounts(DateTime $from, DateTime $to): array
+    public function getActiveInactiveCounts(string $role = ''): array
     {
         $sql = "
             SELECT
@@ -44,6 +53,11 @@ class Analytics extends BaseModel {
               SUM(CASE WHEN is_active = 0 THEN 1 ELSE 0 END) AS inactive
             FROM users
         ";
+        if ($role === 'admin') {
+            $sql .= " WHERE is_admin = 1";
+        } elseif ($role === 'nonadmin') {
+            $sql .= " WHERE is_admin = 0";
+        }
         $row = $this->fetchOne($sql);
 
         return [
@@ -52,17 +66,33 @@ class Analytics extends BaseModel {
         ];
     }
 
-    public function getProjectCount(): int
+    public function getProjectCount(DateTime $from, DateTime $to): int
     {
-        $sql = "SELECT COUNT(*) as cnt FROM projects";
-        $row = $this->fetchOne($sql);
+        $sql = "
+            SELECT COUNT(*) AS cnt
+            FROM projects
+            WHERE created_at BETWEEN :from AND :to
+        ";
+        $params = [
+            ':from' => $from->format('Y-m-d 00:00:00'),
+            ':to'   => $to->format('Y-m-d 23:59:59')
+        ];
+        $row = $this->fetchOne($sql, $params);
         return $row ? (int)$row['cnt'] : 0;
     }
 
-    public function getStageCount(): int
+    public function getStageCount(DateTime $from, DateTime $to): int
     {
-        $sql = "SELECT COUNT(*) as cnt FROM stages";
-        $row = $this->fetchOne($sql);
+        $sql = "
+            SELECT COUNT(*) AS cnt
+            FROM stages
+            WHERE created_at BETWEEN :from AND :to
+        ";
+        $params = [
+            ':from' => $from->format('Y-m-d 00:00:00'),
+            ':to'   => $to->format('Y-m-d 23:59:59')
+        ];
+        $row = $this->fetchOne($sql, $params);
         return $row ? (int)$row['cnt'] : 0;
     }
 

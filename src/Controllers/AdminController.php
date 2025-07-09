@@ -212,40 +212,41 @@ class AdminController extends BaseController
         header('Location: /admin/project_overview');
         exit;
     }
-
     public function analytics()
     {
         $today = new DateTime('now');
         $from  = (clone $today)->modify('-30 days');
-        $model = new Analytics();
+        $role  = strtolower($_GET['role'] ?? '');
 
+        $model = new Analytics();
         $data = [
-            'totalUsers'     => $model->getTotalUsers(),
-            'regTrends'      => $model->getRegistrationTrends('day', $from, $today),
-            'activeInactive' => $model->getActiveInactiveCounts($from, $today),
-            'projectCount'   => $model->getProjectCount(),
-            'stageCount'     => $model->getStageCount(),
-            'pageUsage'      => $model->getPageUsage($from, $today)
+            'totalUsers'     => $model->getTotalUsers($role),
+            'regTrends'      => $model->getRegistrationTrends('day', $from, $today, $role),
+            'activeInactive' => $model->getActiveInactiveCounts($role),
+            'projectCount'   => $model->getProjectCount($from, $today),
+            'stageCount'     => $model->getStageCount($from, $today),
+            'pageUsage'      => $model->getPageUsage($from, $today, 10, $role)
         ];
 
         extract($data);
         require __DIR__ . '/../views/analytics.php';
     }
 
-    public function analyticsData() {
+    public function analyticsData()
+    {
         $input    = json_decode(file_get_contents('php://input'), true);
-        $from     = isset($input['from']) ? new DateTime($input['from']) : new DateTime('-30 days');
-        $to       = isset($input['to'])   ? new DateTime($input['to'])   : new DateTime('now');
-        $interval = $input['interval']    ?? 'day';
+        $from     = isset($input['from'])     ? new DateTime($input['from']) : new DateTime('-30 days');
+        $to       = isset($input['to'])       ? new DateTime($input['to'])   : new DateTime('now');
+        $interval = $input['interval']        ?? 'day';
         $role     = strtolower($input['role'] ?? '');
 
         $model = new Analytics();
         $response = [
-            'totalUsers'     => $model->getTotalUsers(),
-            'regTrends'      => $model->getRegistrationTrends($interval, $from, $to),
-            'activeInactive' => $model->getActiveInactiveCounts($from, $to),
-            'projectCount'   => $model->getProjectCount(),
-            'stageCount'     => $model->getStageCount(),
+            'totalUsers'     => $model->getTotalUsers($role),
+            'regTrends'      => $model->getRegistrationTrends($interval, $from, $to, $role),
+            'activeInactive' => $model->getActiveInactiveCounts($role),
+            'projectCount'   => $model->getProjectCount($from, $to),
+            'stageCount'     => $model->getStageCount($from, $to),
             'pageUsage'      => $model->getPageUsage($from, $to, 10, $role),
         ];
 

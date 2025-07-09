@@ -33,6 +33,7 @@ CREATE TABLE stages (
     deadline DATE NOT NULL,
     budget DECIMAL(10,2) NOT NULL,
     color CHAR(7),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (project_id) REFERENCES projects(project_id)
         ON DELETE CASCADE
 );
