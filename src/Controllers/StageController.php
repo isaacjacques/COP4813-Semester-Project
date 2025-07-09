@@ -4,14 +4,13 @@ namespace Src\Controllers;
 use Src\Models\Stage;
 use Src\Models\Project;
 
-class StageController
+class StageController extends BaseController
 {
     protected Stage   $stageModel;
     protected Project $projectModel;
-
     public function __construct()
     {
-        session_start();
+        parent::__construct();
         $this->stageModel   = new Stage();
         $this->projectModel = new Project();
     }

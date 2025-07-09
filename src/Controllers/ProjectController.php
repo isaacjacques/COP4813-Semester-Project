@@ -4,18 +4,18 @@ namespace Src\Controllers;
 use Src\Models\Project;
 use Src\Models\ProjectUser;
 
-class ProjectController
+class ProjectController extends BaseController
 {
     protected $model;
     protected $projectUserModel;
 
     public function __construct()
     {
-        session_start();
+        parent::__construct();
         $this->model            = new Project();
         $this->projectUserModel = new ProjectUser();
     }
-
+    
     public function index(): void
     {
         $userId = $_SESSION['user_id'] ?? null;

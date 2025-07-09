@@ -4,14 +4,14 @@ namespace Src\Controllers;
 use Src\Models\Invoice;
 use Src\Models\Stage;
 
-class InvoiceController
+class InvoiceController extends BaseController
 {
     protected Invoice $model;
     protected Stage   $stageModel;
 
     public function __construct()
     {
-        session_start();
+        parent::__construct();
         $this->model      = new Invoice();
         $this->stageModel = new Stage();
     }

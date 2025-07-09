@@ -4,12 +4,15 @@ use Src\Config\Database;
 use Src\Models\Project;
 use PDO;
 
-class HomeController {
+class HomeController extends BaseController
+{
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     public function index()
     {
-        session_start();
-
         // If not logged in, show welcome page
         $user_id = $_SESSION['user_id'] ?? null;
         if (!$user_id) {

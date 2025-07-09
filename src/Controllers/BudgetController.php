@@ -3,11 +3,14 @@ namespace Src\Controllers;
 use Src\Config\Database;
 use PDO;
 
-class BudgetController {
+class BudgetController extends BaseController
+{
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     public function index() {
-        session_start();
-        
         $db = new Database();
         $conn = $db->connect();
 

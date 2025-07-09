@@ -9,12 +9,15 @@ use PDO;
 use DateTime;
 use DateInterval;
 use DatePeriod;
-class AdminController
+class AdminController extends BaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index()
     {
-        session_start();
-
         if ((int)($_SESSION['is_admin'] ?? 0) !== 1) {
             echo "This page is only accessible for admins.";
             return;
@@ -32,9 +35,6 @@ class AdminController
     }
 
     public function viewUser() {
-        session_start();
-
-
         if ((int)($_SESSION['is_admin'] ?? 0) !== 1) {
             echo "This page is only accessible for admins.";
             return;
@@ -64,7 +64,6 @@ class AdminController
     
 
     public function updateUser() {
-        session_start();
         $user_id = $_POST['user_id'] ?? null;
         $action = $_POST['action'] ?? 'update';
     
@@ -128,8 +127,6 @@ class AdminController
 
      public function manageUsers()
     {
-        session_start();
-
         if ((int)($_SESSION['is_admin'] ?? 0) !== 1) {
             echo "This page is only accessible for admins.";
             return;
@@ -165,8 +162,6 @@ class AdminController
 
     public function assignUser()
     {
-        session_start();
-
         if ((int)($_SESSION['is_admin'] ?? 0) !== 1) {
             echo "This page is only accessible for admins.";
             return;
@@ -194,7 +189,6 @@ class AdminController
 
     public function projectOverview()
     {
-        session_start();
         $adminId = $_SESSION['user_id'];
 
         $projects = (new Project())->allByUser($adminId);
@@ -204,7 +198,6 @@ class AdminController
 
     public function deleteProject(array $params)
     {
-        session_start();
         $adminId   = $_SESSION['user_id'];
         $projectId = (int) ($params['project_id'] ?? 0);
 
@@ -222,8 +215,6 @@ class AdminController
 
     public function analytics()
     {
-        session_start();
-
         $today = new DateTime('now');
         $from  = (clone $today)->modify('-30 days');
         $model = new Analytics();

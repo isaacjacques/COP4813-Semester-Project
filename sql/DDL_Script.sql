@@ -4,6 +4,7 @@ USE project_wizard;
 DROP TABLE IF EXISTS invoices;
 DROP TABLE IF EXISTS stages;
 DROP TABLE IF EXISTS project_users;
+DROP TABLE IF EXISTS page_visits;
 DROP TABLE IF EXISTS projects;
 DROP TABLE IF EXISTS users;
 
@@ -55,6 +56,18 @@ CREATE TABLE project_users (
       ON DELETE CASCADE
       ON UPDATE CASCADE,
     CONSTRAINT fk_projectusers_user
+      FOREIGN KEY (user_id)
+      REFERENCES users (user_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+);
+
+CREATE TABLE page_visits (
+  id           INT AUTO_INCREMENT PRIMARY KEY,
+  user_id      INT          NULL,
+  page         VARCHAR(255) NOT NULL,
+  visited_at   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_page_visits_user
       FOREIGN KEY (user_id)
       REFERENCES users (user_id)
       ON DELETE CASCADE
