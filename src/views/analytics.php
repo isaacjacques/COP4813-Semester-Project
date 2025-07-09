@@ -59,13 +59,13 @@
                 <div class="card p-3"><h5>Total Users</h5><h2 id="total-users"><?= $totalUsers ?></h2></div>
                 </div>
                 <div class="col-sm-3">
-                <div class="card p-3"><h5>Active vs Inactive</h5><canvas id="activeInactiveChart"></canvas></div>
-                </div>
-                <div class="col-sm-3">
                 <div class="card p-3"><h5>Projects</h5><h2 id="project-count"><?= $projectCount ?></h2></div>
                 </div>
                 <div class="col-sm-3">
                 <div class="card p-3"><h5>Stages</h5><h2 id="stage-count"><?= $stageCount ?></h2></div>
+                </div>
+                <div class="col-sm-3">
+                <div class="card p-3"><h5>Invoices</h5><h2 id="invoice-count"><?= $invoiceCount ?></h2></div>
                 </div>
             </div>
 
@@ -80,6 +80,12 @@
                 <div class="card p-3">
                     <h6>Top Pages</h6>
                     <canvas id="pageUsageChart"></canvas>
+                </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                <div class="card p-3">
+                    <h6>Active vs Inactive</h6>
+                    <canvas id="activeInactiveChart"></canvas>
                 </div>
                 </div>
             </div>

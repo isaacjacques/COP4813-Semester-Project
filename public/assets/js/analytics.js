@@ -1,8 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     const regChart    = new Chart(document.getElementById('regTrendsChart').getContext('2d'), { type: 'line', data: { labels: [], datasets: [{ label: 'New Registrations', data: [] }] }, options: { responsive: true } });
-    const activeChart = new Chart(document.getElementById('activeInactiveChart').getContext('2d'), { type: 'doughnut', data: { labels: [], datasets: [{ data: [] }] }, options: { responsive: true } });
     const pageChart   = new Chart(document.getElementById('pageUsageChart').getContext('2d'), { type: 'bar', data: { labels: [], datasets: [{ label: 'Page Views', data: [] }] }, options: { responsive: true } });
-
+    const activeChart = new Chart(document.getElementById('activeInactiveChart').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: [],
+            datasets: [{
+                data: [],
+                backgroundColor: ['#28a745', '#dc3545']
+            }]
+        },
+        options: { responsive: true }
+    });
+    
     function loadData(from, to, interval, role) {
         fetch('/admin/analytics/data', {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -12,7 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('total-users').textContent   = data.totalUsers;
             document.getElementById('project-count').textContent = data.projectCount;
             document.getElementById('stage-count').textContent   = data.stageCount;
-
+            document.getElementById('invoice-count').textContent = data.invoiceCount;
+            
             regChart.data.labels           = data.regTrends.labels;
             regChart.data.datasets[0].data = data.regTrends.data; regChart.update();
             activeChart.data.labels        = data.activeInactive.labels;

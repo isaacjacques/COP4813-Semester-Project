@@ -240,6 +240,7 @@ class AdminController extends BaseController
             'activeInactive' => $model->getActiveInactiveCounts($role),
             'projectCount'   => $model->getProjectCount($from, $today),
             'stageCount'     => $model->getStageCount($from, $today),
+            'invoiceCount'   => $model->getInvoiceCount($from, $today),
             'pageUsage'      => $model->getPageUsage($from, $today, 10, $role)
         ];
 
@@ -267,6 +268,7 @@ class AdminController extends BaseController
             'activeInactive' => $model->getActiveInactiveCounts($role),
             'projectCount'   => $model->getProjectCount($from, $to),
             'stageCount'     => $model->getStageCount($from, $to),
+            'invoiceCount'   => $model->getInvoiceCount($from, $to),
             'pageUsage'      => $model->getPageUsage($from, $to, 10, $role),
         ];
 

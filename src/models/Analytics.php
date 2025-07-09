@@ -95,6 +95,21 @@ class Analytics extends BaseModel {
         $row = $this->fetchOne($sql, $params);
         return $row ? (int)$row['cnt'] : 0;
     }
+    
+    public function getInvoiceCount(DateTime $from, DateTime $to): int
+    {
+        $sql = "
+            SELECT COUNT(*) AS cnt
+            FROM invoices
+            WHERE date_issued BETWEEN :from AND :to
+        ";
+        $params = [
+            ':from' => $from->format('Y-m-d'),
+            ':to'   => $to->format('Y-m-d')
+        ];
+        $row = $this->fetchOne($sql, $params);
+        return $row ? (int)$row['cnt'] : 0;
+    }
 
     public function getPageUsage(DateTime $from, DateTime $to, int $limit = 10, string $role = ''): array
     {
