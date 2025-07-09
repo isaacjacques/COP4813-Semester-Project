@@ -61,6 +61,11 @@ $is_admin = $_SESSION['is_admin'] ?? 0;
             <a class="nav-link" href="/admin">Admin</a>
             </li>
         <?php endif; ?>
+        <?php if ($is_admin==1): ?>
+            <li class="nav-item">
+            <a class="nav-link" href="/admin/analytics">Analytics</a>
+            </li>
+        <?php endif; ?>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="projectDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <?php echo htmlspecialchars($currentProjectName); ?>

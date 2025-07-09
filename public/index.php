@@ -102,6 +102,14 @@ switch ($uri) {
         }
         break;
 
+    case '/admin/analytics':
+        (new AdminController())->analytics();
+        break;
+
+    case '/admin/analytics/data':
+        (new AdminController())->analyticsData();
+        break;
+
     default:
         http_response_code(404);
         echo "404 - Page Not Found";

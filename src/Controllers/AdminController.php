@@ -3,8 +3,12 @@ namespace Src\Controllers;
 use Src\Config\Database;
 use Src\Models\Project;
 use Src\Models\ProjectUser;
+use Src\Models\Analytics;
 
 use PDO;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 class AdminController
 {
     public function index()
@@ -215,4 +219,47 @@ class AdminController
         header('Location: /admin/project_overview');
         exit;
     }
+
+    public function analytics()
+    {
+        session_start();
+
+        $today = new DateTime('now');
+        $from  = (clone $today)->modify('-30 days');
+        $model = new Analytics();
+
+        $data = [
+            'totalUsers'     => $model->getTotalUsers(),
+            'regTrends'      => $model->getRegistrationTrends('day', $from, $today),
+            'activeInactive' => $model->getActiveInactiveCounts($from, $today),
+            'projectCount'   => $model->getProjectCount(),
+            'stageCount'     => $model->getStageCount(),
+            'pageUsage'      => $model->getPageUsage($from, $today)
+        ];
+
+        extract($data);
+        require __DIR__ . '/../views/analytics.php';
+    }
+
+    public function analyticsData() {
+        $input    = json_decode(file_get_contents('php://input'), true);
+        $from     = isset($input['from']) ? new DateTime($input['from']) : new DateTime('-30 days');
+        $to       = isset($input['to'])   ? new DateTime($input['to'])   : new DateTime('now');
+        $interval = $input['interval']    ?? 'day';
+        $role     = $input['role']        ?? '';
+
+        $model = new Analytics();
+        $response = [
+            'totalUsers'     => $model->getTotalUsers(),
+            'regTrends'      => $model->getRegistrationTrends($interval, $from, $to),
+            'activeInactive' => $model->getActiveInactiveCounts($from, $to),
+            'projectCount'   => $model->getProjectCount(),
+            'stageCount'     => $model->getStageCount(),
+            'pageUsage'      => $model->getPageUsage($from, $to)
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
+
 }    
