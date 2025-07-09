@@ -22,7 +22,7 @@
             </a>
             <a href="/admin/users" class="list-group-item list-group-item-action">Manage Users</a>
             <a href="/admin/project_overview" class="list-group-item list-group-item-action">Project Oversight</a>
-            <!-- <a href="#" class="list-group-item list-group-item-action">Settings</a> -->
+            <a href="/admin/analytics" class="list-group-item list-group-item-action">Analytics</a>
           </div>
         </div>
 

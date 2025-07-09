@@ -189,6 +189,11 @@ class AdminController extends BaseController
 
     public function projectOverview()
     {
+        if ((int)($_SESSION['is_admin'] ?? 0) !== 1) {
+            echo "This page is only accessible for admins.";
+            return;
+        }
+
         $adminId = $_SESSION['user_id'];
 
         $projects = (new Project())->allByUser($adminId);
@@ -198,6 +203,11 @@ class AdminController extends BaseController
 
     public function deleteProject(array $params)
     {
+        if ((int)($_SESSION['is_admin'] ?? 0) !== 1) {
+            echo "This page is only accessible for admins.";
+            return;
+        }
+
         $adminId   = $_SESSION['user_id'];
         $projectId = (int) ($params['project_id'] ?? 0);
 
@@ -214,6 +224,11 @@ class AdminController extends BaseController
     }
     public function analytics()
     {
+        if ((int)($_SESSION['is_admin'] ?? 0) !== 1) {
+            echo "This page is only accessible for admins.";
+            return;
+        }
+
         $today = new DateTime('now');
         $from  = (clone $today)->modify('-30 days');
         $role  = strtolower($_GET['role'] ?? '');
@@ -234,6 +249,11 @@ class AdminController extends BaseController
 
     public function analyticsData()
     {
+        if ((int)($_SESSION['is_admin'] ?? 0) !== 1) {
+            echo "This page is only accessible for admins.";
+            return;
+        }
+        
         $input    = json_decode(file_get_contents('php://input'), true);
         $from     = isset($input['from'])     ? new DateTime($input['from']) : new DateTime('-30 days');
         $to       = isset($input['to'])       ? new DateTime($input['to'])   : new DateTime('now');

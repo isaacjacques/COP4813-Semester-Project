@@ -40,7 +40,7 @@ $is_admin = $_SESSION['is_admin'] ?? 0;
     <div class="collapse navbar-collapse" id="mainNav">
     <ul class="navbar-nav ms-3">
         <li class="nav-item">
-        <a class="nav-link active" href="/home">Home</a>
+        <a class="nav-link" href="/home">Home</a>
         </li>
         <?php if ($is_admin==1): ?>
             <li class="nav-item">
@@ -59,11 +59,6 @@ $is_admin = $_SESSION['is_admin'] ?? 0;
         <?php if ($is_admin==1): ?>
             <li class="nav-item">
             <a class="nav-link" href="/admin">Admin</a>
-            </li>
-        <?php endif; ?>
-        <?php if ($is_admin==1): ?>
-            <li class="nav-item">
-            <a class="nav-link" href="/admin/analytics">Analytics</a>
             </li>
         <?php endif; ?>
         <li class="nav-item dropdown">
