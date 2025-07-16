@@ -8,6 +8,9 @@
 <body>
   <?php include 'navbar.php'; ?>
   <div class="container mt-4">
+    <a href="/admin" class="btn btn-secondary mb-3">
+      ← Back to Dashboard
+    </a>
     <h3>Edit User</h3>
 
     <!-- Update Form -->

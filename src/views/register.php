@@ -33,8 +33,18 @@
                 <label for="password" class="form-label fw-semibold">Password</label>
                 <input type="password" name="password" required class="form-control">
             </div>
-            <div class="d-grid mt-4">
-                <button type="submit" name="register" class="btn btn-dark btn-lg rounded-pill">Register</button>
+            <div class="d-flex mt-4">
+              <a href="/" class="btn btn-outline-secondary btn-md rounded-pill w-25">
+                ← Back
+              </a>
+
+              <button
+                type="submit"
+                name="register"
+                class="btn btn-dark btn-md rounded-pill flex-grow-1 ms-2"
+              >
+                Register
+              </button>
             </div>
         </form>
       </div>

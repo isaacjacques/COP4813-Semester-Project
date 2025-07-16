@@ -56,9 +56,18 @@
             <label for="password" class="form-label fw-semibold">Password</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
           </div>
-          <div class="d-grid">
-            <button type="submit" class="btn btn-dark btn-lg rounded-pill">Login</button>
-          </div>
+          <div class="d-flex mt-4">
+            <a href="/" class="btn btn-outline-secondary btn-md rounded-pill w-25">
+              ← Back
+            </a>
+
+            <button
+              type="submit"
+              name="login"
+              class="btn btn-dark btn-md rounded-pill flex-grow-1 ms-2"
+            >
+              Login
+            </button>
         </form>
       </div>
     </div>
