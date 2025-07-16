@@ -25,7 +25,7 @@ class ProjectController extends BaseController
         }
 
         $projects = $this->model->allByUser($userId);
-        include __DIR__ . '/../views/projects.php';
+        include __DIR__ . '/../Views/projects.php';
     }
 
     public function save(): void

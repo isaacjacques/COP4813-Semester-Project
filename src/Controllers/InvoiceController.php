@@ -31,7 +31,7 @@ class InvoiceController extends BaseController
 
         $invoices = $this->model->allByProject($projectId, $userId);
         $stages   = $this->stageModel->allByProject($projectId);
-        include __DIR__ . '/../views/invoices.php';
+        include __DIR__ . '/../Views/invoices.php';
     }
 
     public function save(): void

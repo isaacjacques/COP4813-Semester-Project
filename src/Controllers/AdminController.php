@@ -31,7 +31,7 @@ class AdminController extends BaseController
         $stmt->execute();
         $users = $stmt->fetchAll(\PDO::FETCH_ASSOC);
     
-        include __DIR__ . '/../views/admin_panel.php';
+        include __DIR__ . '/../Views/admin_panel.php';
     }
 
     public function viewUser() {
@@ -59,7 +59,7 @@ class AdminController extends BaseController
             exit;
         }
     
-        include __DIR__ . '/../views/admin_user_form.php';
+        include __DIR__ . '/../Views/admin_user_form.php';
     }
     
 
@@ -157,7 +157,7 @@ class AdminController extends BaseController
         $assignedStmt->execute([':project_id' => $selectedProjectId]);
         $assignedUsers = $assignedStmt->fetchAll(PDO::FETCH_ASSOC);
 
-        include __DIR__ . '/../views/manage_users.php';
+        include __DIR__ . '/../Views/manage_users.php';
     }
 
     public function assignUser()
@@ -198,7 +198,7 @@ class AdminController extends BaseController
 
         $projects = (new Project())->allByUser($adminId);
 
-        include __DIR__ . '/../views/project_overview.php';
+        include __DIR__ . '/../Views/project_overview.php';
     }
 
     public function deleteProject(array $params)
@@ -246,7 +246,7 @@ class AdminController extends BaseController
         ];
 
         extract($data);
-        require __DIR__ . '/../views/analytics.php';
+        require __DIR__ . '/../Views/analytics.php';
     }
 
     public function analyticsData()

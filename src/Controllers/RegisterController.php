@@ -7,7 +7,7 @@ class RegisterController
 {
     public function showForm()
     {
-        include __DIR__ . '/../views/register.php';
+        include __DIR__ . '/../Views/register.php';
     }
 
     public function handleRegistration()

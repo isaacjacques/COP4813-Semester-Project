@@ -16,7 +16,7 @@ class HomeController extends BaseController
         // If not logged in, show welcome page
         $user_id = $_SESSION['user_id'] ?? null;
         if (!$user_id) {
-            require __DIR__ . '/../views/welcome.php';
+            require __DIR__ . '/../Views/welcome.php';
             return;
         }
         
@@ -70,7 +70,7 @@ class HomeController extends BaseController
         
         $stages = $this->getProjectStages($project_id);
 
-        require __DIR__ . '/../views/home.php';
+        require __DIR__ . '/../Views/home.php';
     }
 
     public function getProjectStages(int $project_id): array

@@ -37,7 +37,7 @@ class StageController extends BaseController
             exit;
         }
 
-        include __DIR__ . '/../views/stages.php';
+        include __DIR__ . '/../Views/stages.php';
     }
 
     public function save(): void
