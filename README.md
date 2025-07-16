@@ -1,8 +1,81 @@
-# COP4813-Semester-Project
-Group 13 - Project Timeline and Budget Monitor
-A web-based tool for managing project stages, deadlines, and budgets. Built with PHP, MySQL, and Bootstrap.
+# COP4813-Semester-Project | Group 13 - Project Timeline and Budget Monitor
+A web-based tool for managing project stages, deadlines, and budgets in a clear, visual format.
 
-## Windows setup with XAMPP
+## Overview
+
+The Project Timeline and Budget Monitor is a lightweight, user-friendly web application designed to help project managers and small teams plan, track, and report on project progress and finances. By breaking down projects into customizable stages with individual deadlines and budget allocations, the tool provides a unified dashboard to visualize timelines and monitor spending, ensuring projects stay on schedule and within budget.
+
+## Project Objectives
+
+- **Primary Goal:** Develop a cost-effective, customizable project management solution that simplifies stage-based planning, deadline tracking, and budget oversight.
+- **Key Deliverables**:
+  - Enable project managers to define and organize project stages with deadlines and cost estimates
+  - Provide a visual timeline for quick assessment of project status
+  - Offer real-time budget summaries and alerts for potential overruns
+  - Facilitate easy reporting and data export for stakeholder communication
+
+## Features
+
+- **Project Entry Form**: Create new projects with title, description, and total budget
+- **Stage Management**: Add, edit, and remove stages; assign deadlines and cost estimates per stage
+- **Timeline Visualization**: Display stages in a horizontal bar-chart timeline for quick overview
+- **Budget Summary**: Track total versus used budget, with warnings for stages exceeding allocated funds
+- **Additional Enhancements** (planned): Status labels, deadline alerts, CSV export of reports
+
+## Skills Demonstrated
+
+- **MVC Architecture**: Organized code into Models, Views, and Controllers for maintainability
+- **Full-Stack Development**: Built backend logic in PHP and frontend interfaces with HTML, CSS, JavaScript, and Bootstrap
+- **Database Design & Management**: Designed relational schema and implemented CRUD operations in MySQL
+- **Version Control & Collaboration**: Managed codebase and collaborated via Git and GitHub
+- **Team Coordination**: Estimated tasks, allocated workloads, and managed project timeline collaboratively
+
+## Technologies Used
+
+- **Backend**: PHP 7+, Composer for dependency management
+- **Frontend**: HTML5, CSS3, JavaScript, Bootstrap 4
+- **Database**: MySQL, phpMyAdmin for administration
+- **Development Environment**: XAMPP (Apache, MySQL)
+- **Tools**: Git, VS Code, phpMyAdmin
+
+## Demo
+
+### Home Page
+
+![Home Page](public/assets/images/Home.JPG)
+
+### Budget Management
+
+![Budgets](public/assets/images/Budgets.JPG)
+
+### Project Stage Management
+
+![Stages](public/assets/images/Stages.JPG)
+
+### Invoice Management
+
+![Invoices](public/assets/images/Invoices.JPG)
+
+### General Project Managment
+
+![Projects](public/assets/images/Projects.JPG)
+
+### Admin Dashboard
+
+![Admin Dashboard](public/assets/images/Admin_Dashboard.JPG)
+
+### Project Users
+
+![Project Users](public/assets/images/Project Users.JPG)
+
+### User Analytics 
+
+![Analytics](public/assets/images/Analytics.JPG)
+
+## Installation & Setup
+
+Follow these steps to get the project running locally on Windows using XAMPP:
+
 ### 1. Install XAMPP
 Download and Install XAMPP to manage the local Apache and mySQL services [apachefriends.org](https://www.apachefriends.org/)
 
