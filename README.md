@@ -44,7 +44,7 @@ The Project Timeline and Budget Monitor is a lightweight, user-friendly web appl
 
 ![Home Page](public/assets/images/Home.JPG)
 
-### Budget Management
+### Project Budgets
 
 ![Budgets](public/assets/images/Budgets.JPG)
 
