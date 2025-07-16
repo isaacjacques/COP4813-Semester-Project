@@ -1,6 +1,5 @@
-# COP4813-Semester-Project 
-Group 13 - Project Timeline and Budget Monitor.
-A web-based tool for managing project stages, deadlines, and budgets in a clear, visual format.
+# Project Wizard
+A Project Timeline and Budget Monitor by Group 13.
 
 ## Overview
 
@@ -67,7 +66,7 @@ The Project Timeline and Budget Monitor is a lightweight, user-friendly web appl
 
 ### Project Users
 
-![Project Users](public/assets/images/Project Users.JPG)
+![Project Users](public/assets/images/Project_Users.JPG)
 
 ### User Analytics 
 
