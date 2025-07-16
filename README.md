@@ -1,4 +1,5 @@
-# COP4813-Semester-Project | Group 13 - Project Timeline and Budget Monitor
+# COP4813-Semester-Project 
+Group 13 - Project Timeline and Budget Monitor.
 A web-based tool for managing project stages, deadlines, and budgets in a clear, visual format.
 
 ## Overview
